@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vérificateur d'encadrement des loyers à Paris | Simulateur & Carte Interactive</title>
+  <meta name="description" content="Vérifiez si votre loyer dépasse le plafond légal à Paris en 30 secondes. Simulateur officiel loi ÉLAN, carte interactive des 20 arrondissements, calcul du trop-perçu et lettre de mise en demeure gratuite.">
+  <meta name="keywords" content="encadrement des loyers Paris, loi ELAN, loyer de référence majoré, contestation loyer paris, trop-perçu loyer, mise en demeure bailleur, carte loyer paris">
+  <meta name="author" content="LoyerLégal Paris">
+  <meta property="og:title" content="Vérificateur d'encadrement des loyers à Paris - LoyerLégal">
+  <meta property="og:description" content="Votre loyer parisien est-il légal ? Calculez votre dépassement et générez votre lettre de mise en demeure en quelques clics.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Leaflet.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="site-header" id="top">
+    <div class="container nav-container">
+      <a href="#top" class="brand-logo" aria-label="Accueil LoyerLégal Paris">
+        <div class="logo-icon-wrap">
+          <i class="fa-solid fa-scale-balanced logo-icon"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">LoyerLégal <span class="logo-accent">Paris</span></span>
+          <span class="logo-subtitle">Conforme Loi ÉLAN &bull; Arrêté 2024-2025</span>
+        </div>
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="#carte" class="nav-link"><i class="fa-solid fa-map-location-dot"></i> Carte des 20 arrondissements</a>
+        <a href="#simulateur" class="nav-link"><i class="fa-solid fa-calculator"></i> Simulateur</a>
+        <a href="#guide-loi" class="nav-link"><i class="fa-solid fa-book-open"></i> Guide Juridique</a>
+        <a href="#faq" class="nav-link"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+        <a href="#simulateur" class="btn btn-sm btn-primary nav-cta"><i class="fa-solid fa-bolt"></i> Tester mon loyer</a>
+      </nav>
+
+      <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Ouvrir le menu de navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-badge">
+          <span class="badge-pulse"></span>
+          <i class="fa-solid fa-shield-halved"></i> 100% Anonyme &bull; Données Officielles Préfecture de Paris
+        </div>
+        <h1 class="hero-title">Vérifiez si votre loyer dépasse le plafond légal à Paris en 30 secondes</h1>
+        <p class="hero-description">
+          À Paris, plus d’un tiers des logements loués violent l’encadrement légal des loyers instauré par la loi ÉLAN. Calculez votre trop-perçu au centime près, découvrez vos droits et générez immédiatement votre lettre de mise en demeure officielle pour exiger une baisse et un remboursement.
+        </p>
+
+        <!-- Trust Stats Bar -->
+        <div class="hero-stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-euro-sign"></i></div>
+            <div class="stat-info">
+              <span class="stat-number">180 €</span>
+              <span class="stat-label">Trop-perçu moyen constaté par mois</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-number">3 ans</span>
+              <span class="stat-label">Remboursement rétroactif possible</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-gavel"></i></div>
+            <div class="stat-info">
+              <span class="stat-number">5 000 €</span>
+              <span class="stat-label">Amende administrative pour le bailleur</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-laptop-code"></i></div>
+            <div class="stat-info">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Client-side &bull; Aucune donnée stockée</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#simulateur" class="btn btn-lg btn-primary"><i class="fa-solid fa-calculator"></i> Calculer mon loyer maintenant</a>
+          <a href="#carte" class="btn btn-lg btn-outline"><i class="fa-solid fa-map-pin"></i> Explorer la carte des plafonds</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="section map-section" id="carte">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-map"></i> Cartographie Officielle</span>
+          <h2 class="section-title">Carte interactive des 20 arrondissements de Paris</h2>
+          <p class="section-subtitle">
+            Cliquez sur un arrondissement pour afficher le loyer de référence majoré (€/m²) en vigueur et pré-remplir automatiquement le formulaire de calcul ci-dessous.
+          </p>
+        </div>
+
+        <!-- Quick filter chips for arrondissements -->
+        <div class="map-chips-bar" id="mapChipsBar" aria-label="Sélection rapide d'un arrondissement">
+          <span class="chips-label"><i class="fa-solid fa-filter"></i> Arrondissement :</span>
+          <div class="chips-scroll" id="arrondissementChips">
+            <!-- Chips generated dynamically by script.js -->
+          </div>
+        </div>
+
+        <!-- Map Container Card -->
+        <div class="map-card">
+          <div class="map-wrapper">
+            <div id="parisMap" class="leaflet-map" role="region" aria-label="Carte interactive de Paris"></div>
+            <div class="map-legend">
+              <div class="legend-header"><i class="fa-solid fa-circle-info"></i> Légende (€/m² plafonné)</div>
+              <div class="legend-items">
+                <span class="legend-badge tier-high">37 - 45 €/m² (Centre & Ouest)</span>
+                <span class="legend-badge tier-mid">33 - 36 €/m² (Péricentre)</span>
+                <span class="legend-badge tier-low">30 - 32 €/m² (Nord & Est)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrondissement info preview panel -->
+          <div class="map-info-panel" id="mapInfoPanel">
+            <div class="info-panel-content">
+              <div class="info-panel-title-wrap">
+                <div class="info-badge" id="infoPanelNumber">11e</div>
+                <div>
+                  <h3 class="info-panel-title" id="infoPanelName">11e arrondissement &bull; Popincourt</h3>
+                  <p class="info-panel-sub" id="infoPanelDesc">Secteur Bastille, République, Voltaire, Oberkampf</p>
+                </div>
+              </div>
+              <div class="info-panel-metrics">
+                <div class="info-metric">
+                  <span class="metric-label">Plafond moyen non meublé :</span>
+                  <span class="metric-val" id="infoPanelCeilingNM">35.3 € / m²</span>
+                </div>
+                <div class="info-metric">
+                  <span class="metric-label">Plafond moyen meublé :</span>
+                  <span class="metric-val highlight" id="infoPanelCeilingM">40.0 € / m²</span>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-primary" id="btnApplyArrondissement">
+                <i class="fa-solid fa-check"></i> Choisir cet arrondissement
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Google AdSense - Responsive Ad Unit -->
+    <div class="container adsense-container" aria-label="Espace Publicitaire">
+      <div class="adsense-card">
+        <span class="adsense-label">Publicité &bull; Annonce sponsorisée</span>
+        <div class="adsense-placeholder-box">
+          <i class="fa-solid fa-rectangle-ad ad-icon"></i>
+          <span class="ad-title">Google AdSense Responsive Banner Slot #1</span>
+          <span class="ad-desc">Bannière adaptative conforme au règlement éditorial Google</span>
+        </div>
+        <!-- Pour activer Google AdSense en production, décommentez le bloc ci-dessous :
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        -->
+      </div>
+    </div>
+    <!-- /Google AdSense - Responsive Ad Unit -->
+
+    <!-- Rent Calculator Form Section -->
+    <section class="section calculator-section" id="simulateur">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-sliders"></i> Diagnostic Immédiat</span>
+          <h2 class="section-title">Simulateur officiel d'encadrement du loyer</h2>
+          <p class="section-subtitle">
+            Renseignez les données de votre bail d’habitation. Tous les calculs sont effectués en local sur votre appareil selon l’arrêté préfectoral parisien.
+          </p>
+        </div>
+
+        <div class="calculator-grid">
+          <!-- Form Card -->
+          <div class="calc-card">
+            <div class="calc-card-header">
+              <div class="calc-header-icon"><i class="fa-solid fa-file-contract"></i></div>
+              <div>
+                <h3 class="calc-title">Caractéristiques de votre logement</h3>
+                <p class="calc-sub">Toutes ces données figurent sur votre contrat de bail.</p>
+              </div>
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="preset-buttons-wrap">
+              <span class="preset-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Exemples types :</span>
+              <button type="button" class="preset-btn" id="presetStudioOver">
+                <i class="fa-solid fa-triangle-exclamation text-danger"></i> Studio 20 m² dans le 11e (Surfacturé)
+              </button>
+              <button type="button" class="preset-btn" id="presetT2Legal">
+                <i class="fa-solid fa-circle-check text-success"></i> 2 pièces 45 m² dans le 15e (Conforme)
+              </button>
+            </div>
+
+            <form id="rentForm" class="rent-form" novalidate>
+              <!-- Field: Arrondissement -->
+              <div class="form-group">
+                <label for="formArrondissement" class="form-label">
+                  <i class="fa-solid fa-location-dot"></i> Arrondissement de Paris <span class="required">*</span>
+                </label>
+                <div class="select-wrapper">
+                  <select id="formArrondissement" class="form-control" required>
+                    <!-- Options populated dynamically by script.js -->
+                  </select>
+                </div>
+                <small class="form-helper">Sélectionnez votre arrondissement ou cliquez sur la carte plus haut.</small>
+              </div>
+
+              <!-- Field: Furnishing Type -->
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="fa-solid fa-couch"></i> Type de location <span class="required">*</span>
+                </label>
+                <div class="segmented-control" role="radiogroup" aria-label="Type de location">
+                  <label class="segment-option">
+                    <input type="radio" name="locationType" value="non_meuble" checked>
+                    <span class="segment-pill"><i class="fa-solid fa-door-open"></i> Non meublé (Nu)</span>
+                  </label>
+                  <label class="segment-option">
+                    <input type="radio" name="locationType" value="meuble">
+                    <span class="segment-pill"><i class="fa-solid fa-bed"></i> Meublé (+11% à 15%)</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Field: Number of rooms -->
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="fa-solid fa-layer-group"></i> Nombre de pièces principales <span class="required">*</span>
+                </label>
+                <div class="segmented-control rooms-control" role="radiogroup" aria-label="Nombre de pièces">
+                  <label class="segment-option">
+                    <input type="radio" name="roomCount" value="1" checked>
+                    <span class="segment-pill">1 pièce (Studio)</span>
+                  </label>
+                  <label class="segment-option">
+                    <input type="radio" name="roomCount" value="2">
+                    <span class="segment-pill">2 pièces</span>
+                  </label>
+                  <label class="segment-option">
+                    <input type="radio" name="roomCount" value="3">
+                    <span class="segment-pill">3 pièces</span>
+                  </label>
+                  <label class="segment-option">
+                    <input type="radio" name="roomCount" value="4">
+                    <span class="segment-pill">4 pièces et +</span>
+                  </label>
+                </div>
+                <small class="form-helper">Ne comptez pas la cuisine, la salle d'eau et les couloirs.</small>
+              </div>
+
+              <!-- Row: Surface & Rent -->
+              <div class="form-row">
+                <div class="form-group col-half">
+                  <label for="formSurface" class="form-label">
+                    <i class="fa-solid fa-ruler-combined"></i> Surface habitable <span class="required">*</span>
+                  </label>
+                  <div class="input-with-suffix">
+                    <input type="number" id="formSurface" class="form-control" min="9" max="400" step="0.5" placeholder="ex: 32" value="30" required>
+                    <span class="input-suffix">m²</span>
+                  </div>
+                  <small class="form-helper">Surface Loi Carrez indiquée au contrat.</small>
+                </div>
+
+                <div class="form-group col-half">
+                  <label for="formRentCurrent" class="form-label">
+                    <i class="fa-solid fa-receipt"></i> Loyer mensuel actuel <span class="required">*</span>
+                  </label>
+                  <div class="input-with-suffix">
+                    <input type="number" id="formRentCurrent" class="form-control" min="100" max="15000" step="5" placeholder="ex: 1100" value="1150" required>
+                    <span class="input-suffix">€ / mois</span>
+                  </div>
+                  <small class="form-helper"><strong>Hors charges</strong> et hors compléments éventuels.</small>
+                </div>
+              </div>
+
+              <!-- Collapsible Advanced settings: Lease Date & Rent Complement -->
+              <details class="advanced-params">
+                <summary class="advanced-summary">
+                  <i class="fa-solid fa-sliders"></i> Paramètres avancés (Estimation du remboursement cumulé)
+                </summary>
+                <div class="advanced-content">
+                  <div class="form-row">
+                    <div class="form-group col-half">
+                      <label for="formLeaseDate" class="form-label">
+                        <i class="fa-solid fa-calendar-days"></i> Date de signature du bail
+                      </label>
+                      <input type="date" id="formLeaseDate" class="form-control" value="2024-01-01">
+                      <small class="form-helper">Permet de calculer le montant total à réclamer.</small>
+                    </div>
+                    <div class="form-group col-half">
+                      <label for="formRentComplement" class="form-label">
+                        <i class="fa-solid fa-circle-plus"></i> Complément de loyer éventuel
+                      </label>
+                      <div class="input-with-suffix">
+                        <input type="number" id="formRentComplement" class="form-control" min="0" step="10" placeholder="0" value="0">
+                        <span class="input-suffix">€ / mois</span>
+                      </div>
+                      <small class="form-helper">Si votre bail prévoit un complément distinct.</small>
+                    </div>
+                  </div>
+                </div>
+              </details>
+
+              <button type="submit" class="btn btn-primary btn-block btn-calc-submit" id="btnCalculate">
+                <i class="fa-solid fa-calculator"></i> Vérifier mon loyer maintenant
+              </button>
+            </form>
+          </div>
+
+          <!-- Dynamic Results Card (revealed upon calculation) -->
+          <div class="results-wrapper" id="resultsWrapper">
+            <div class="results-card" id="resultsCard">
+              <!-- Initial placeholder state -->
+              <div class="results-placeholder" id="resultsPlaceholder">
+                <div class="placeholder-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                <h4>Votre diagnostic apparaîtra ici</h4>
+                <p>Cliquez sur <strong>« Vérifier mon loyer »</strong> pour obtenir instantanément l'analyse juridique détaillée de votre bail.</p>
+              </div>
+
+              <!-- Active Results Content -->
+              <div class="results-active hidden" id="resultsActive">
+                <!-- Status Header Banner -->
+                <div class="results-status-banner" id="statusBanner">
+                  <div class="status-badge-wrap">
+                    <span class="status-badge" id="statusBadge">
+                      <i class="fa-solid fa-triangle-exclamation"></i> Loyer illégal - Dépassement détecté !
+                    </span>
+                  </div>
+                  <h3 class="status-headline" id="statusHeadline">Dépassement de 184,00 € / mois</h3>
+                  <p class="status-sub" id="statusSub">Votre bailleur ne respecte pas le plafond légal de référence majoré fixé par arrêté préfectoral.</p>
+                </div>
+
+                <!-- Primary Metrics Cards -->
+                <div class="metrics-grid">
+                  <div class="metric-box box-danger" id="metricExcessMonthWrap">
+                    <span class="metric-box-label"><i class="fa-solid fa-arrow-trend-up"></i> Trop-perçu mensuel</span>
+                    <span class="metric-box-val" id="metricExcessMonth">+184,00 €</span>
+                    <span class="metric-box-sub">Payé en trop chaque mois</span>
+                  </div>
+
+                  <div class="metric-box box-warning" id="metricExcessYearWrap">
+                    <span class="metric-box-label"><i class="fa-solid fa-piggy-bank"></i> Perte annuelle</span>
+                    <span class="metric-box-val" id="metricExcessYear">2 208,00 €</span>
+                    <span class="metric-box-sub">Surcoût sur 12 mois</span>
+                  </div>
+
+                  <div class="metric-box box-info">
+                    <span class="metric-box-label"><i class="fa-solid fa-shield"></i> Plafond légal max</span>
+                    <span class="metric-box-val" id="metricLegalMax">966,00 €</span>
+                    <span class="metric-box-sub" id="metricLegalPerSqm">soit 32,20 € / m²</span>
+                  </div>
+
+                  <div class="metric-box box-accent" id="metricRefundTotalWrap">
+                    <span class="metric-box-label"><i class="fa-solid fa-hand-holding-dollar"></i> Remboursement dû</span>
+                    <span class="metric-box-val" id="metricRefundTotal">2 208,00 €</span>
+                    <span class="metric-box-sub" id="metricRefundDuration">Depuis la date du bail</span>
+                  </div>
+                </div>
+
+                <!-- Comparison Visual Bar -->
+                <div class="comparison-bar-section">
+                  <div class="comparison-bar-header">
+                    <span class="bar-title"><i class="fa-solid fa-chart-simple"></i> Comparatif des loyers au m²</span>
+                    <span class="bar-legend-text" id="barLegendText">Loyer actuel : 38,33 €/m² &bull; Plafond légal : 32,20 €/m²</span>
+                  </div>
+                  <div class="visual-progress-track">
+                    <div class="progress-segment seg-reference" id="barSegReference" title="Loyer de référence (médian)">
+                      <span class="seg-label">Loyer de réf.</span>
+                    </div>
+                    <div class="progress-segment seg-ceiling" id="barSegCeiling" title="Plafond légal (+20% majoré)">
+                      <span class="seg-label">Plafond légal (+20%)</span>
+                    </div>
+                    <div class="progress-segment seg-excess" id="barSegExcess" title="Dépassement illégal">
+                      <span class="seg-label">Dépassement</span>
+                    </div>
+                  </div>
+                  <div class="comparison-details-list">
+                    <div class="detail-item">
+                      <span class="dot dot-ref"></span>
+                      <span>Loyer de référence médian : <strong id="valRefRent">26,80 € / m²</strong></span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="dot dot-ceiling"></span>
+                      <span>Loyer de référence majoré (Plafond) : <strong id="valCeilingRent">32,20 € / m²</strong></span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="dot dot-current"></span>
+                      <span>Votre loyer actuel déclaré : <strong id="valCurrentRent">38,33 € / m²</strong></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="results-cta-wrap" id="resultsCtaWrap">
+                  <a href="#generateur-lettre" class="btn btn-lg btn-danger btn-block" id="btnGoToLetter">
+                    <i class="fa-solid fa-gavel"></i> Générer ma lettre de mise en demeure gratuite
+                  </a>
+                  <p class="cta-notice">
+                    <i class="fa-solid fa-lock"></i> Aucune inscription requise &bull; Courrier conforme à l'article 140 de la loi ÉLAN.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pre-filled Legal Letter Generator Section -->
+    <section class="section letter-section" id="generateur-lettre">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-gavel"></i> Modèle Juridique Officiel</span>
+          <h2 class="section-title">Générateur de mise en demeure pour loyer illégal</h2>
+          <p class="section-subtitle">
+            Ce courrier formel cite expressément l'article 140 de la loi ÉLAN et l'arrêté préfectoral de Paris. Il met votre propriétaire en demeure d'abaisser votre loyer et de rembourser les sommes trop-perçues sous peine de saisine de la Commission Départementale de Conciliation (CDC) et d'amende administrative.
+          </p>
+        </div>
+
+        <div class="letter-layout">
+          <!-- Parameters to personalize the letter -->
+          <div class="letter-params-card">
+            <h3 class="letter-params-title"><i class="fa-solid fa-pen-to-square"></i> Personnaliser le courrier</h3>
+            <p class="letter-params-desc">Renseignez vos coordonnées et celles du bailleur pour adapter automatiquement le document.</p>
+
+            <div class="letter-params-form">
+              <div class="form-group">
+                <label for="inputTenantName" class="form-label">Nom & Prénom du Locataire</label>
+                <input type="text" id="inputTenantName" class="form-control" value="Jean Dupont" placeholder="ex: Jean Dupont">
+              </div>
+
+              <div class="form-group">
+                <label for="inputTenantAddress" class="form-label">Adresse du logement loué</label>
+                <input type="text" id="inputTenantAddress" class="form-control" value="12 rue de la Roquette, Bât B, 3ème étage" placeholder="ex: 12 rue de la Roquette">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-half">
+                  <label for="inputTenantPostal" class="form-label">Code Postal</label>
+                  <input type="text" id="inputTenantPostal" class="form-control" value="75011" placeholder="75011">
+                </div>
+                <div class="form-group col-half">
+                  <label for="inputTenantPhone" class="form-label">Téléphone / Email</label>
+                  <input type="text" id="inputTenantPhone" class="form-control" value="06 12 34 56 78" placeholder="06 00 00 00 00">
+                </div>
+              </div>
+
+              <hr class="params-divider">
+
+              <div class="form-group">
+                <label for="inputLandlordName" class="form-label">Nom du Bailleur ou de l'Agence</label>
+                <input type="text" id="inputLandlordName" class="form-control" value="M. Pierre Martin (Bailleur)" placeholder="ex: M. Pierre Martin ou Agence Immobilière">
+              </div>
+
+              <div class="form-group">
+                <label for="inputLandlordAddress" class="form-label">Adresse postale du Bailleur</label>
+                <input type="text" id="inputLandlordAddress" class="form-control" value="45 avenue de la République, 75011 Paris" placeholder="Adresse où envoyer la LRAR">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-half">
+                  <label for="inputLetterCity" class="form-label">Fait à</label>
+                  <input type="text" id="inputLetterCity" class="form-control" value="Paris">
+                </div>
+                <div class="form-group col-half">
+                  <label for="inputLetterDate" class="form-label">Date du courrier</label>
+                  <input type="date" id="inputLetterDate" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="letter-actions-panel">
+              <button type="button" class="btn btn-primary btn-block" id="btnCopyLetter">
+                <i class="fa-solid fa-copy"></i> Copier la lettre complète
+              </button>
+              <div class="btn-group-row">
+                <button type="button" class="btn btn-outline" id="btnPrintLetter">
+                  <i class="fa-solid fa-print"></i> Imprimer / PDF
+                </button>
+                <button type="button" class="btn btn-outline" id="btnDownloadTxt">
+                  <i class="fa-solid fa-download"></i> Télécharger (.txt)
+                </button>
+              </div>
+              <div id="copyToast" class="copy-toast hidden" role="status">
+                <i class="fa-solid fa-check"></i> Texte copié dans le presse-papier !
+              </div>
+            </div>
+          </div>
+
+          <!-- Letter Paper Live Preview -->
+          <div class="letter-paper-wrap">
+            <div class="letter-paper-header-badge">
+              <i class="fa-solid fa-file-shield"></i> Aperçu officiel en direct &bull; Recommandé avec accusé de réception (LRAR)
+            </div>
+            <article class="letter-paper" id="letterPaper" contenteditable="true" aria-label="Lettre de mise en demeure éditable">
+              <!-- Dynamically populated and reactive -->
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Google AdSense - Responsive Ad Unit -->
+    <div class="container adsense-container" aria-label="Espace Publicitaire">
+      <div class="adsense-card">
+        <span class="adsense-label">Publicité &bull; Annonce sponsorisée</span>
+        <div class="adsense-placeholder-box">
+          <i class="fa-solid fa-rectangle-ad ad-icon"></i>
+          <span class="ad-title">Google AdSense Responsive Banner Slot #2</span>
+          <span class="ad-desc">Bannière adaptative haute visibilité</span>
+        </div>
+        <!-- Pour activer Google AdSense en production, décommentez le bloc ci-dessous :
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="YYYYYYYYYY"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        -->
+      </div>
+    </div>
+    <!-- /Google AdSense - Responsive Ad Unit -->
+
+    <!-- SEO Comprehensive Guide Section -->
+    <section class="section seo-guide-section" id="guide-loi">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-scale-balanced"></i> Comprendre vos droits</span>
+          <h2 class="section-title">Guide complet de l'encadrement des loyers à Paris (Loi ÉLAN)</h2>
+          <p class="section-subtitle">
+            Tout ce que les locataires et propriétaires doivent savoir pour faire respecter le droit immobilier parisien.
+          </p>
+        </div>
+
+        <div class="seo-guide-content">
+          <!-- Article 1: What is rent control -->
+          <article class="guide-article">
+            <div class="article-icon"><i class="fa-solid fa-landmark"></i></div>
+            <div class="article-body">
+              <h3>Qu'est-ce que l'encadrement des loyers à Paris (Loi ÉLAN) ?</h3>
+              <p>
+                Depuis le <strong>1er juillet 2019</strong>, la Ville de Paris applique de manière pérenne le dispositif d'encadrement des loyers prévu par l'article 140 de la loi n° 2018-1021 du 23 novembre 2018 (dite <strong>loi ÉLAN</strong>). Ce mécanisme a été instauré pour endiguer la flambée spéculative des prix du logement locatif privé dans la capitale, classée en zone de tension immobilière maximale.
+              </p>
+              <p>
+                Chaque année au début de l'été, le Préfet de la région d'Île-de-France publie un arrêté préfectoral déterminant les prix de référence du marché pour l'ensemble des 80 quartiers parisiens regroupés en 14 secteurs géographiques homogènes. Pour chaque secteur, la réglementation fixe trois niveaux de loyer exprimés en euros par mètre carré de surface habitable :
+              </p>
+              <ul>
+                <li><strong>Le loyer de référence médian :</strong> calculé annuellement par l'Observatoire des Loyers de l'Agglomération Parisienne (OLAP) d'après les données réelles du marché.</li>
+                <li><strong>Le loyer de référence minoré (-30%) :</strong> seuil en deçà duquel le bailleur peut demander une réévaluation lors du renouvellement de bail.</li>
+                <li><strong>Le loyer de référence majoré (+20%) :</strong> <em>le plafond légal indépassable</em>. À la signature d'un nouveau bail ou lors de son renouvellement tacite, le loyer hors charges ne peut sous aucun prétexte excéder ce montant au mètre carré, sauf cas très restrictif d'un complément de loyer légitime.</li>
+              </ul>
+              <p>
+                L'encadrement concerne tous les <strong>baux d'habitation principale</strong> régis par la loi du 6 juillet 1989, qu'il s'agisse de locations non meublées (nues) ou meublées, ainsi que les baux mobilité et les colocations avec baux individuels ou solidaires.
+              </p>
+            </div>
+          </article>
+
+          <!-- Article 2: What to do when rent is illegal -->
+          <article class="guide-article">
+            <div class="article-icon"><i class="fa-solid fa-gavel"></i></div>
+            <div class="article-body">
+              <h3>Que faire si mon loyer est supérieur au plafond légal ?</h3>
+              <p>
+                Si votre loyer dépasse le loyer de référence majoré fixé pour votre secteur et les caractéristiques de votre logement (époque de construction, nombre de pièces et statut de meublé), vous avez le droit strict d'exiger son alignement immédiat et le remboursement des sommes indûment perçues. La procédure se déroule en plusieurs étapes graduées :
+              </p>
+              <ol class="guide-steps">
+                <li>
+                  <strong>1. L'envoi d'une mise en demeure par LRAR :</strong>
+                  Adressez à votre bailleur (ou à son agence mandataire) une lettre recommandée avec accusé de réception récapitulant les caractéristiques du bail, le plafond préfectoral applicable, le calcul du trop-perçu mensuel et la sommation de mise en conformité sous 15 jours.
+                </li>
+                <li>
+                  <strong>2. Le signalement officiel auprès de la Ville de Paris :</strong>
+                  Depuis 2023, la Ville de Paris dispose de compétences décentralisées pour sanctionner directement les bailleurs en infraction. En effectuant un signalement en ligne sur la plateforme de la Mairie, les services municipaux peuvent enjoindre le propriétaire de corriger le loyer et de rembourser le locataire dans un délai de 2 mois. À défaut d'obtempérer, le préfet et la mairie peuvent infliger une amende administrative allant jusqu'à <strong>5 000 € pour une personne physique</strong> et <strong>15 000 € pour une personne morale</strong> (SCI, agence, foncière).
+                </li>
+                <li>
+                  <strong>3. La saisine de la Commission Départementale de Conciliation (CDC de Paris) :</strong>
+                  Gratuite et accessible en ligne, la CDC réunit des représentants des bailleurs et des locataires pour trouver un accord amiable juridiquement opposable. Elle doit être saisie avant toute assignation en justice.
+                </li>
+                <li>
+                  <strong>4. L'action judiciaire devant le juge des contentieux :</strong>
+                  Si la conciliation échoue, le locataire peut saisir le tribunal judiciaire de Paris (Pôle de proximité) pour contraindre le propriétaire à rembourser tous les loyers indus avec intérêts légaux et à supporter les frais de justice.
+                </li>
+              </ol>
+              <div class="guide-callout">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <strong>Délai de prescription précieux :</strong> Conformément à l'article 7-1 de la loi du 6 juillet 1989, les actions en répétition de l'indu (remboursement des loyers payés en trop) se prescrivent par <strong>3 ans</strong>. Vous pouvez donc réclamer rétroactivement jusqu'à 36 mois de trop-perçu !
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-container" id="faq">
+          <div class="faq-header">
+            <h3 class="faq-title"><i class="fa-solid fa-circle-question"></i> Foire Aux Questions (FAQ) - Vos questions fréquentes</h3>
+            <p class="faq-sub">Cliquez sur une question pour déplier la réponse juridique détaillée.</p>
+          </div>
+
+          <div class="faq-accordion">
+            <details class="faq-item" open>
+              <summary class="faq-question">
+                <span>Le complément de loyer : qu'est-ce que c'est et est-il justifié ?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+              </summary>
+              <div class="faq-answer">
+                <p>
+                  Le complément de loyer est une somme que le propriétaire peut ajouter au loyer de base uniquement si le logement présente des caractéristiques <em>exceptionnelles</em> de localisation ou de confort par rapport aux logements similaires du même quartier (ex : vue imprenable et dégagée sur un monument historique, terrasse privative sans vis-à-vis de grande surface, équipements de luxe rarissimes).
+                </p>
+                <p>
+                  <strong>Attention aux abus fréquents :</strong> La loi et la jurisprudence interdisent strictement d'appliquer un complément de loyer pour des éléments courants tels qu'une cuisine équipée, la présence d'un ascenseur, un lave-linge, une cave ordinaire ou un balcon standard. Si votre bail contient un complément de loyer injustifié, vous avez <strong>3 mois après la signature du bail</strong> pour le contester devant la CDC.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>Que risque le propriétaire en cas de non-respect du plafond légal ?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+              </summary>
+              <div class="faq-answer">
+                <p>
+                  Le propriétaire s'expose à de lourdes conséquences financières et administratives :
+                </p>
+                <ul>
+                  <li>L'obligation de <strong>rembourser l'intégralité du trop-perçu</strong> depuis le premier jour du bail (dans la limite de 3 ans de prescription).</li>
+                  <li>La baisse automatique et immédiate du loyer mensuel au plafond légal majoré pour toute la durée restante du contrat.</li>
+                  <li>Une <strong>amende administrative</strong> prononcée par la Préfecture ou la Mairie de Paris pouvant atteindre jusqu'à <strong>5 000 €</strong> pour une personne physique (particulier) et <strong>15 000 €</strong> pour une personne morale (SCI, SARL, société d'investissement).</li>
+                </ul>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>Quel est le délai de prescription pour réclamer le trop-perçu ?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+              </summary>
+              <div class="faq-answer">
+                <p>
+                  Selon l'article 7-1 de la loi n° 89-462 du 6 juillet 1989, toutes les actions relatives aux loyers et charges se prescrivent par <strong>trois (3) ans</strong> à compter du jour où le titulaire du droit a connu ou aurait dû connaître les faits.
+                </p>
+                <p>
+                  Cela signifie que si vous êtes dans votre logement depuis deux ans à un loyer illégal excédant de 200 € le plafond légal, vous pouvez réclamer <code>24 mois × 200 € = 4 800 €</code> de remboursement intégral à votre bailleur.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>Comment saisir la Commission Départementale de Conciliation (CDC) de Paris ?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+              </summary>
+              <div class="faq-answer">
+                <p>
+                  La saisine de la Commission Départementale de Conciliation de Paris est <strong>entièrement gratuite</strong>. Elle s'effectue par lettre recommandée avec accusé de réception ou par téléprocédure auprès de la DRIHL (Direction Régionale et Interdépartementale de l'Hébergement et du Logement).
+                </p>
+                <p>
+                  Il suffit de fournir une copie du contrat de bail, la mise en demeure préalablement adressée au bailleur avec son accusé de réception, et la fiche de calcul du loyer de référence applicable. Les deux parties sont alors convoquées sous 1 à 2 mois pour tenter de trouver un accord formel.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>Les charges locatives sont-elles soumises à l'encadrement des loyers ?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+              </summary>
+              <div class="faq-answer">
+                <p>
+                  <strong>Non.</strong> Le loyer de référence majoré s'applique exclusivement au <strong>loyer principal hors charges</strong> (loyer nu). Les provisions pour charges locatives ou le forfait de charges (en meublé ou colocation) ne sont pas inclus dans le calcul du plafond au m².
+                </p>
+                <p>
+                  Toutefois, les charges réelles doivent obligatoirement correspondre aux dépenses réelles récupérables énumérées par le décret du 26 août 1987 et faire l'objet d'une régularisation annuelle avec justificatifs tenus à disposition du locataire.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>Le propriétaire peut-il résilier mon bail ou m'expulser si je conteste le loyer ?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+              </summary>
+              <div class="faq-answer">
+                <p>
+                  <strong>Absolument pas.</strong> En France, le locataire en titre bénéficie d'une protection juridique très forte. Le bailleur ne peut en aucun cas résilier un bail d'habitation pour ce motif. Toute mesure de rétorsion ou menace d'expulsion est pénalement répréhensible. Le bailleur ne peut donner congé qu'au terme du bail (tous les 3 ans en non meublé, 1 an en meublé) et uniquement pour des motifs strictement encadrés par la loi (vente, reprise pour habiter personnellement, ou motif légitime et sérieux prouvé).
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-col brand-col">
+        <div class="brand-logo footer-logo">
+          <div class="logo-icon-wrap"><i class="fa-solid fa-scale-balanced logo-icon"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">LoyerLégal <span class="logo-accent">Paris</span></span>
+            <span class="logo-subtitle">Plateforme citoyenne indépendante</span>
+          </div>
+        </div>
+        <p class="footer-desc">
+          Outil 100% côté client conçu pour démocratiser l'accès aux droits des locataires parisiens conformément à la loi ÉLAN et aux arrêtés préfectoraux de la région d'Île-de-France.
+        </p>
+        <div class="footer-security-note">
+          <i class="fa-solid fa-lock"></i> <strong>Confidentialité garantie :</strong> Aucun traitement côté serveur. Vos données ne quittent jamais votre navigateur.
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Navigation Rapide</h4>
+        <ul class="footer-links">
+          <li><a href="#top"><i class="fa-solid fa-angle-right"></i> Accueil</a></li>
+          <li><a href="#carte"><i class="fa-solid fa-angle-right"></i> Carte des 20 arrondissements</a></li>
+          <li><a href="#simulateur"><i class="fa-solid fa-angle-right"></i> Simulateur de loyer</a></li>
+          <li><a href="#generateur-lettre"><i class="fa-solid fa-angle-right"></i> Générateur de mise en demeure</a></li>
+          <li><a href="#guide-loi"><i class="fa-solid fa-angle-right"></i> Guide de la Loi ÉLAN</a></li>
+          <li><a href="#faq"><i class="fa-solid fa-angle-right"></i> FAQ & Questions fréquentes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Ressources Officielles</h4>
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.paris.fr/pages/l-encadrement-des-loyers-parisiens-en-vigueur-le-1er-juillet-8041" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Mairie de Paris &bull; Encadrement
+            </a>
+          </li>
+          <li>
+            <a href="https://www.drihl.ile-de-france.developpement-durable.gouv.fr/" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> DRIHL Île-de-France
+            </a>
+          </li>
+          <li>
+            <a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000037639478/" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Légifrance &bull; Loi ÉLAN Art. 140
+            </a>
+          </li>
+          <li>
+            <a href="https://www.olap-idf.org/" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> OLAP (Observatoire des Loyers)
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Mentions Légales & Contact</h4>
+        <ul class="footer-links">
+          <li><button type="button" class="footer-modal-trigger" data-modal="modalMentions"><i class="fa-solid fa-scale-unbalanced-flip"></i> Mentions légales</button></li>
+          <li><button type="button" class="footer-modal-trigger" data-modal="modalPrivacy"><i class="fa-solid fa-user-shield"></i> Politique de confidentialité</button></li>
+          <li><button type="button" class="footer-modal-trigger" data-modal="modalContact"><i class="fa-solid fa-envelope"></i> Nous contacter</button></li>
+        </ul>
+        <div class="footer-disclaimer">
+          <small>
+            Avertissement : Les estimations fournies par cette application sont fondées sur les arrêtés préfectoraux publiés et ne se substituent pas à une consultation juridique personnalisée d'un avocat ou de l'ADIL de Paris.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2024-2026 LoyerLégal Paris. Tous droits réservés. Développé pour la défense du droit au logement.</p>
+        <div class="footer-tags">
+          <span class="tag-badge">Loi ÉLAN</span>
+          <span class="tag-badge">Ville de Paris</span>
+          <span class="tag-badge">Vanilla JS</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <!-- Mentions Légales Modal -->
+  <dialog class="app-modal" id="modalMentions">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-scale-balanced"></i> Mentions Légales</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <h4>Éditeur du site</h4>
+        <p>LoyerLégal Paris est une initiative citoyenne et bénévole d'utilité publique, conçue comme un outil logiciel 100% côté client (client-side).</p>
+        <h4>Hébergement</h4>
+        <p>L'application est hébergée sur une architecture statique sans serveur (serveur web statique). Aucun traitement ni stockage de base de données n'est opéré.</p>
+        <h4>Propriété intellectuelle & Données</h4>
+        <p>Les données géographiques et les plafonds des loyers de référence sont issus des jeux de données ouverts publiés par la Ville de Paris et la Préfecture de la Région d'Île-de-France sous licence Open Data.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Politique de Confidentialité Modal -->
+  <dialog class="app-modal" id="modalPrivacy">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-user-shield"></i> Politique de Confidentialité (RGPD)</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <h4>Zéro collecte de données personnelles</h4>
+        <p>
+          LoyerLégal Paris fonctionne <strong>exclusivement dans votre navigateur</strong>. Vos informations de bail (arrondissement, montant du loyer, surface, noms) ne sont à aucun moment transmises, enregistrées ou consultées par des tiers ou par un serveur externe.
+        </p>
+        <h4>Cookies</h4>
+        <p>
+          Ce site ne dépose aucun cookie traceur propriétaire. Si des bannières publicitaires Google AdSense sont activées par l'administrateur, celles-ci sont soumises à la politique de gestion des cookies de Google.
+        </p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Contact Modal -->
+  <dialog class="app-modal" id="modalContact">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-envelope"></i> Contact & Signalement</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p>Vous avez une suggestion d'amélioration, un retour ou une question sur l'encadrement des loyers parisiens ?</p>
+        <form class="contact-form" id="contactForm" onsubmit="event.preventDefault(); alert('Merci pour votre message ! Ce projet bénévole prendra en compte vos retours.'); this.closest('dialog').close();">
+          <div class="form-group">
+            <label class="form-label" for="contactEmail">Votre adresse email</label>
+            <input type="email" id="contactEmail" class="form-control" placeholder="nom@exemple.fr" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactMessage">Votre message</label>
+            <textarea id="contactMessage" class="form-control" rows="4" placeholder="Comment pouvons-nous vous aider ?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> Envoyer le message</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Leaflet JS CDN -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Main Application Script -->
+  <script src="script.js"></script>
+</body>
+</html>
