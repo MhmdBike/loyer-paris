@@ -228,7 +228,7 @@ button, input, select, textarea {
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: scale(0.98);
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
 }
 
@@ -246,7 +246,7 @@ button, input, select, textarea {
 }
 
 .btn-danger:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .btn-outline {
@@ -1690,7 +1690,7 @@ button, input, select, textarea {
 }
 
 .btn-affiliate:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .affiliate-trust-badges {
