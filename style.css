@@ -2502,3 +2502,110 @@ button, input, select, textarea {
     align-items: flex-start;
   }
 }
+
+
+/* ==========================================================================
+   Affiliate Recommendation Card: Assurance Habitation
+   ========================================================================== */
+.affiliate-card {
+  grid-column: 1 / -1;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 5px solid #10b981;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.affiliate-card-inner {
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.affiliate-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.affiliate-content {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.affiliate-icon-wrap {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.affiliate-headline {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.affiliate-subtext {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.btn-affiliate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff !important;
+  padding: 0.95rem 1.85rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: fit-content;
+}
+
+.btn-affiliate:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.45);
+}
+
+.affiliate-trust-badges {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f5f9;
+  font-size: 0.825rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .affiliate-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .btn-affiliate {
+    width: 100%;
+  }
+}
