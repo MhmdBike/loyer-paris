@@ -363,7 +363,7 @@
               <!-- Active Results Content -->
               <div class="results-active hidden" id="resultsActive">
                 <!-- Status Header Banner -->
-                <div class="results-status-banner" id="statusBanner">
+                <div class="results-status-banner" id="statusBanner" aria-live="polite" aria-atomic="true">
                   <div class="status-badge-wrap">
                     <span class="status-badge" id="statusBadge">
                       <i class="fa-solid fa-triangle-exclamation"></i> Loyer illégal - Dépassement détecté !
@@ -444,32 +444,32 @@
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Affiliate Card: Assurance Habitation -->
-          <div class="affiliate-card" id="affiliateInsurance">
-            <div class="affiliate-card-inner">
-              <div class="affiliate-top-row">
-                <div class="affiliate-badge">
-                  <i class="fa-solid fa-scale-balanced"></i> Obligation légale du locataire
+            <!-- Affiliate Card: Assurance Habitation -->
+            <aside class="affiliate-card" id="affiliateInsurance" aria-label="Assurance habitation">
+              <div class="affiliate-card-inner">
+                <div class="affiliate-top-row">
+                  <div class="affiliate-badge">
+                    <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Obligation légale du locataire
+                  </div>
+                </div>
+                <div class="affiliate-content">
+                  <div class="affiliate-icon-wrap" aria-hidden="true">🛡️</div>
+                  <div class="affiliate-text">
+                    <h4 class="affiliate-headline">Assurance habitation</h4>
+                    <p class="affiliate-subtext">L'assurance habitation est obligatoire pour tout locataire à Paris. Comparez les meilleures offres dès 4 € / mois en 2 minutes.</p>
+                  </div>
+                </div>
+                <a href="#" id="affiliate-insurance-btn" target="_blank" rel="sponsored noopener noreferrer" class="btn-affiliate">
+                  Comparer les assurances habitation →
+                </a>
+                <div class="affiliate-trust-badges" aria-label="Garanties du partenaire">
+                  <span class="trust-badge">✓ Sans engagement</span>
+                  <span class="trust-badge">✓ 100% Gratuit</span>
+                  <span class="trust-badge">✓ Partenaire certifié</span>
                 </div>
               </div>
-              <div class="affiliate-content">
-                <div class="affiliate-icon-wrap">🛡️</div>
-                <div class="affiliate-text">
-                  <h4 class="affiliate-headline">Assurance habitation</h4>
-                  <p class="affiliate-subtext">L'assurance habitation est obligatoire pour tout locataire à Paris. Comparez les meilleures offres dès 4 € / mois en 2 minutes.</p>
-                </div>
-              </div>
-              <a href="#" id="affiliate-insurance-btn" target="_blank" rel="sponsored noopener noreferrer" class="btn-affiliate">
-                Comparer les assurances habitation →
-              </a>
-              <div class="affiliate-trust-badges">
-                <span class="trust-badge">✓ Sans engagement</span>
-                <span class="trust-badge">✓ 100% Gratuit</span>
-                <span class="trust-badge">✓ Partenaire certifié</span>
-              </div>
-            </div>
+            </aside>
           </div>
 
         </div>
