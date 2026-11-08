@@ -2704,3 +2704,13 @@ button, input, select, textarea {
     width: 100%;
   }
 }
+
+/* ==================== ضع كود الدليل والفوتر هنا بالأسفل ==================== */
+.legal-guide-section {
+  margin-top: 50px;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+/* ... باقي كود الـ CSS ... */
