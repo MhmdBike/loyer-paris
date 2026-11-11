@@ -185,10 +185,10 @@
     <div class="affiliate-grid-section">
       <div class="affiliate-cards-container">
 
-        <!-- البطاقة 1: التأمين السكني للمستأجر (MRH) -->
-        <div class="fintech-card insurance-theme">
+        <!-- البطاقة 1: التأمين السكني للمستأجر (MRH) - محسنة ديناميكياً -->
+        <div class="fintech-card insurance-theme" id="mrh-card">
           <div class="fintech-card-header">
-            <span class="fintech-badge">
+            <span class="fintech-badge" id="mrh-badge">
               <i class="fa-solid fa-scale-balanced"></i> Obligation Locataire
             </span>
             <span class="fintech-price-pill">Dès 4 € / mois</span>
@@ -201,11 +201,11 @@
               </div>
               <div>
                 <h3>Assurance Habitation (MRH)</h3>
-                <p class="fintech-subtitle">Attestation immédiate exigée par le bailleur</p>
+                <p class="fintech-subtitle" id="mrh-subtitle">Attestation immédiate exigée par le bailleur</p>
               </div>
             </div>
 
-            <p class="fintech-desc">
+            <p class="fintech-desc" id="mrh-desc">
               Locataire à Paris ? Assurez votre logement en 2 minutes au meilleur prix et recevez votre attestation immédiatement.
             </p>
 
@@ -222,7 +222,7 @@
                target="_blank" 
                rel="sponsored noopener noreferrer" 
                class="fintech-btn">
-              Obtenir mon tarif locataire <span>&rarr;</span>
+              <span id="mrh-btn-text">Obtenir mon tarif locataire</span> <span>&rarr;</span>
             </a>
             <div class="fintech-guarantee">
               <i class="fa-solid fa-lock"></i> Partenaire agréé ACPR • Attestation immédiate

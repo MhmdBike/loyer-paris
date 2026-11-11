@@ -587,50 +587,45 @@ function renderResultsDashboard(result) {
   barSegCeil.style.width = ceilPct + '%';
   barSegExcess.style.width = excessPct + '%';
   barSegExcess.style.display = result.isIllegal ? 'flex' : 'none';
+
+  // تحديث بطاقة التأمين حسب النتيجة
+  updateInsuranceCard(result.isIllegal);
 }
 
 /* ==========================================================================
-   Pre-filled Legal Letter Generator
+   Dynamic MRH Insurance Card Update (CRO)
    ========================================================================== */
-function initLetterGenerator() {
-  const today = new Date().toISOString().split('T')[0];
-  const dateInput = document.getElementById('inputLetterDate');
-  if (dateInput) dateInput.value = today;
+function updateInsuranceCard(isOverpriced) {
+  const badge = document.getElementById('mrh-badge');
+  const subtitle = document.getElementById('mrh-subtitle');
+  const desc = document.getElementById('mrh-desc');
+  const btnText = document.getElementById('mrh-btn-text');
+  const card = document.getElementById('mrh-card');
 
-  const letterInputs = [
-    'inputTenantName', 'inputTenantAddress', 'inputTenantPostal',
-    'inputTenantPhone', 'inputLandlordName', 'inputLandlordAddress',
-    'inputLetterCity', 'inputLetterDate'
-  ];
+  if (!badge || !desc || !subtitle || !btnText) return;
 
-  letterInputs.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input', () => {
-        if (AppState.activeResult) updateLetterPreview(AppState.activeResult);
-      });
-    }
-  });
+  if (isOverpriced) {
+    // الحالة 1: إيجار غير قانوني (تجاوز في السقف)
+    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Démarche Obligatoire';
+    badge.style.background = 'rgba(245, 158, 11, 0.2)';
+    badge.style.color = '#fbbf24';
 
-  const btnCopy = document.getElementById('btnCopyLetter');
-  if (btnCopy) {
-    btnCopy.addEventListener('click', () => {
-      copyLetterToClipboard();
-    });
-  }
+    subtitle.textContent = "Indispensable pour votre contestation de loyer";
+    desc.textContent = "Pour toute réclamation officielle auprès du bailleur ou de la commission de conciliation, vous devez impérativement présenter une attestation d'assurance en règle. Obtenez votre attestation en 2 min.";
+    btnText.textContent = "Obtenir mon attestation pour mon dossier";
 
-  const btnPrint = document.getElementById('btnPrintLetter');
-  if (btnPrint) {
-    btnPrint.addEventListener('click', () => {
-      window.print();
-    });
-  }
+    if (card) card.style.borderColor = '#f59e0b';
+  } else {
+    // الحالة 2: إيجار قانوني وسليم
+    badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Bon Plan Locataire';
+    badge.style.background = 'rgba(16, 185, 129, 0.2)';
+    badge.style.color = '#34d399';
 
-  const btnDownloadTxt = document.getElementById('btnDownloadTxt');
-  if (btnDownloadTxt) {
-    btnDownloadTxt.addEventListener('click', () => {
-      downloadLetterTxt();
-    });
+    subtitle.textContent = "Économisez sur vos charges obligatoires";
+    desc.textContent = "Votre loyer respecte le plafond légal ! Continuez à optimiser votre budget logement avec l'assurance habitation la moins chère de Paris (dès 4€/mois sans engagement).";
+    btnText.textContent = "Réduire ma facture d'assurance";
+
+    if (card) card.style.borderColor = '#10b981';
   }
 }
 
