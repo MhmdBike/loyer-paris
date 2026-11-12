@@ -76,6 +76,19 @@
           <i class="fa-solid fa-shield-halved"></i> 100% Anonyme &bull; Données Officielles Préfecture de Paris
         </div>
         <h1 class="hero-title">Vérifiez si votre loyer dépasse le plafond légal à Paris en 30 secondes</h1>
+        <!-- ابحث عن عنوان موقعك الرئيسي -->
+        <h1>Simulateur d'Encadrement des Loyers à Paris</h1>
+        <p class="subtitle">Vérifiez si votre loyer respecte les plafonds légaux.</p>
+
+        <!-- ضع هذا الكود هنا مباشرة (قبل الـ form) -->
+        <div class="legal-badge" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin: 12px 0 20px 0; padding: 6px 12px; background: #f3f4f6; border-radius: 20px; font-size: 0.8rem; color: #374151; font-weight: 500;">
+          <span>⚖️</span>
+          <span>Données officielles conformes à l'Arrêté Préfectoral 2026 (Loi ÉLAN)</span>
+        </div>
+
+        <!-- هنا يبدأ نموذج الحاسبة الخاص بك -->
+        <form id="rent-form">
+          ...
         <p class="hero-description">
           À Paris, plus d’un tiers des logements loués violent l’encadrement légal des loyers instauré par la loi ÉLAN. Calculez votre trop-perçu au centime près, découvrez vos droits et générez immédiatement votre lettre de mise en demeure officielle pour exiger une baisse et un remboursement.
         </p>
@@ -180,6 +193,10 @@
         </div>
       </div>
     </section>
+    <div id="retro-recovery-banner" style="display: none; max-width: 850px; margin: 25px auto 10px auto; padding: 14px 20px; background: #fef2f2; border: 1.5px solid #ef4444; border-radius: 12px; text-align: center; color: #991b1b; font-size: 1.05rem; font-weight: 700; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px; color: #dc2626;"></i>
+      <span id="retro-recovery-text">Trop-perçu détecté</span>
+    </div>
 
     <!-- شبكة بطاقات الشركاء والخدمات (Locataires & Propriétaires) -->
     <div class="affiliate-grid-section">

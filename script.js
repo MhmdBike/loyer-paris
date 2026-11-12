@@ -453,6 +453,23 @@ function calculateRent(shouldScroll = false) {
       const totalMonths = yearDiff * 12 + monthDiff;
       elapsedMonths = Math.min(Math.max(totalMonths, 1), 36); // capped at 3 years
     }
+    // ==========================================================
+  // 👇 ضع كود تفعيل لافتة الاسترجاع بأثر رجعي هنا 👇
+  // ==========================================================
+  const banner = document.getElementById('retro-recovery-banner');
+  const textSpan = document.getElementById('retro-recovery-text');
+
+  if (banner && textSpan) {
+    if (excessMonthly > 0) {
+      // حساب المبلغ الأقصى التراكمي لـ 3 سنوات قانونية (36 شهراً)
+      const maxRetroAmount = Math.round(excessMonthly * 36).toLocaleString('fr-FR');
+      
+      textSpan.innerHTML = `Loyer illégal : Jusqu'à <strong>${maxRetroAmount} €</strong> de trop-perçu à récupérer sur 3 ans (loi ÉLAN)`;
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
   }
 
   const totalRefund = Math.round(excessMonthly * elapsedMonths * 100) / 100;
