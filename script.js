@@ -453,27 +453,26 @@ function calculateRent(shouldScroll = false) {
       const totalMonths = yearDiff * 12 + monthDiff;
       elapsedMonths = Math.min(Math.max(totalMonths, 1), 36); // capped at 3 years
     }
-    // ==========================================================
-  // 👇 ضع كود تفعيل لافتة الاسترجاع بأثر رجعي هنا 👇
+  }
+
+  const totalRefund = Math.round(excessMonthly * elapsedMonths * 100) / 100;
+  const isIllegal = excessMonthly > 0;
+
+  // ==========================================================
+  // تحديث لافتة الاسترجاع بأثر رجعي
   // ==========================================================
   const banner = document.getElementById('retro-recovery-banner');
   const textSpan = document.getElementById('retro-recovery-text');
 
   if (banner && textSpan) {
-    if (excessMonthly > 0) {
-      // حساب المبلغ الأقصى التراكمي لـ 3 سنوات قانونية (36 شهراً)
+    if (isIllegal) {
       const maxRetroAmount = Math.round(excessMonthly * 36).toLocaleString('fr-FR');
-      
       textSpan.innerHTML = `Loyer illégal : Jusqu'à <strong>${maxRetroAmount} €</strong> de trop-perçu à récupérer sur 3 ans (loi ÉLAN)`;
       banner.style.display = 'block';
     } else {
       banner.style.display = 'none';
     }
   }
-  }
-
-  const totalRefund = Math.round(excessMonthly * elapsedMonths * 100) / 100;
-  const isIllegal = excessMonthly > 0;
 
   // Store active result
   AppState.activeResult = {
@@ -877,3 +876,79 @@ function initModals() {
     });
   });
 }
+/* ==========================================================================
+   Gestion du Modal - Générateur de Lettre de Contestation
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const btnGenerate = document.getElementById('btnGenerateLetter');
+  const modal = document.getElementById('letterModal');
+  const btnClose = document.getElementById('btnCloseModal');
+  const btnCopy = document.getElementById('btnCopyLetter');
+  const letterArea = document.getElementById('letterContent');
+
+  if (btnGenerate && modal) {
+    btnGenerate.addEventListener('click', () => {
+      // قراءة البيانات مباشرة من AppState.activeResult
+      const res = (typeof AppState !== 'undefined' && AppState.activeResult) ? AppState.activeResult : {};
+      
+      const rent = res.currentRent || document.getElementById('formRentCurrent')?.value || '___';
+      const surface = res.surface || document.getElementById('formSurface')?.value || '___';
+      const arNumber = res.arNumber || document.getElementById('formArrondissement')?.value || '___';
+      const legalMax = res.legalMaxMonthly || '___';
+      const excess = res.excessMonthly || '___';
+      const retro = res.excessMonthly ? Math.round(res.excessMonthly * 36).toLocaleString('fr-FR') : '___';
+
+      const letterTemplate = `[Vos Nom et Prénom]
+[Votre Adresse complète à Paris ${arNumber}e]
+
+À l'attention de : [Nom du Propriétaire ou de l'Agence]
+[Adresse du destinataire]
+
+Fait à Paris, le ${new Date().toLocaleDateString('fr-FR')}
+
+Objet : Mise en demeure - Diminution du loyer et restitution du trop-perçu (Loi ÉLAN)
+Lettre recommandée avec avis de réception (LRAR)
+
+Madame, Monsieur,
+
+Locataire du logement situé au [Votre adresse complète], je constate que le loyer appliqué (hors charges) s'élève à ${rent} € / mois pour une surface de ${surface} m².
+
+Conformément à l'Arrêté Préfectoral fixant les loyers de référence à Paris (article 140 de la loi ÉLAN n° 2018-1021) :
+- Le loyer de référence majoré (plafond légal) applicable est de : ${legalMax} € / mois.
+- Le loyer appliqué présente ainsi un dépassement non justifié de : ${excess} € / mois.
+
+Par la présente, je vous mets en demeure de :
+1. Réduire immédiatement mon loyer mensuel au montant légal de ${legalMax} € / mois dès la prochaine échéance.
+2. Procéder au remboursement de la somme totale perçue en trop, estimée à ${retro} € (au titre de la prescription triennale de 3 ans).
+
+À défaut de régularisation ou d'accord écrit sous 30 jours, je porterai le litige devant la Commission Départementale de Conciliation (CDC) de Paris ainsi que les services préfectoraux.
+
+Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+[Signature]`;
+
+      letterArea.value = letterTemplate;
+      modal.style.display = 'block';
+    });
+
+    if (btnClose) {
+      btnClose.addEventListener('click', () => { modal.style.display = 'none'; });
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        letterArea.select();
+        navigator.clipboard.writeText(letterArea.value).then(() => {
+          btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> Copié !';
+          setTimeout(() => {
+            btnCopy.innerHTML = '<i class="fa-regular fa-copy"></i> Copier le texte';
+          }, 2000);
+        });
+      });
+    }
+  }
+});
