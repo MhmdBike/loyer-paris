@@ -38,7 +38,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- 👇 كود عزل ورقة الخطاب وضبط طباعة A4 فوراً 👇 -->
+  <!-- عزل ورقة الخطاب للطباعة في صفحة A4 واحدة فقط -->
   <style>
     @media print {
       @page {
@@ -46,12 +46,22 @@
         margin: 15mm 20mm;
       }
 
-      /* 1. إخفاء كل العناصر المباشرة داخل body ما عدا قسم الخطاب */
-      body > *:not(#generateur-lettre) {
+      /* 1. إخفاء الهيدر والفوتر والنوافذ المنبثقة */
+      header,
+      footer,
+      dialog,
+      #retro-recovery-banner,
+      #letterModal,
+      .affiliate-grid-section {
         display: none !important;
       }
 
-      /* 2. إخفاء العناصر غير المرغوبة داخل قسم الخطاب (العنوان، نموذج البيانات، الأزرار) */
+      /* 2. إخفاء كل الأقسام داخل main ما عدا قسم الخطاب */
+      main > *:not(#generateur-lettre) {
+        display: none !important;
+      }
+
+      /* 3. إخفاء العناوين ونموذج الإدخال والأزرار داخل قسم الخطاب */
       #generateur-lettre .section-header,
       #generateur-lettre .letter-params-card,
       #generateur-lettre .letter-paper-header-badge,
@@ -59,30 +69,27 @@
         display: none !important;
       }
 
-      /* 3. إلغاء الخلفيات والظلال لجعل الصفحة نظيفة تماماً */
-      html, body {
-        background: #ffffff !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100% !important;
-        min-height: auto !important;
-      }
-
+      /* 4. تصفير الهوامش والخلفيات والظلال */
+      html,
+      body,
+      main,
       #generateur-lettre,
       .letter-section,
       .container,
       .letter-layout,
       .letter-paper-wrap {
         display: block !important;
+        background: #ffffff !important;
         margin: 0 !important;
         padding: 0 !important;
-        border: none !important;
-        box-shadow: none !important;
         width: 100% !important;
         max-width: 100% !important;
+        min-height: auto !important;
+        border: none !important;
+        box-shadow: none !important;
       }
 
-      /* 4. تنسيق ورقة الخطاب A4 الرسمية */
+      /* 5. تنسيق ورقة الخطاب A4 الرسمية */
       #letterPaper {
         display: block !important;
         width: 100% !important;
@@ -110,7 +117,7 @@
         </div>
         <div class="logo-text">
           <span class="logo-title">LoyerLégal <span class="logo-accent">Paris</span></span>
-          <span class="logo-subtitle">Conforme Loi ÉLAN &bull; Arrêté 2024-2025</span>
+          <span class="logo-subtitle">Conforme Loi ÉLAN &bull; Arrêté 2024-2026</span>
         </div>
       </a>
 
@@ -137,19 +144,12 @@
           <i class="fa-solid fa-shield-halved"></i> 100% Anonyme &bull; Données Officielles Préfecture de Paris
         </div>
         <h1 class="hero-title">Vérifiez si votre loyer dépasse le plafond légal à Paris en 30 secondes</h1>
-        <!-- ابحث عن عنوان موقعك الرئيسي -->
-        <h1>Simulateur d'Encadrement des Loyers à Paris</h1>
-        <p class="subtitle">Vérifiez si votre loyer respecte les plafonds légaux.</p>
 
-        <!-- ضع هذا الكود هنا مباشرة (قبل الـ form) -->
         <div class="legal-badge" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin: 12px 0 20px 0; padding: 6px 12px; background: #f3f4f6; border-radius: 20px; font-size: 0.8rem; color: #374151; font-weight: 500;">
           <span>⚖️</span>
           <span>Données officielles conformes à l'Arrêté Préfectoral 2026 (Loi ÉLAN)</span>
         </div>
 
-        <!-- هنا يبدأ نموذج الحاسبة الخاص بك -->
-        <form id="rent-form">
-          ...
         <p class="hero-description">
           À Paris, plus d’un tiers des logements loués violent l’encadrement légal des loyers instauré par la loi ÉLAN. Calculez votre trop-perçu au centime près, découvrez vos droits et générez immédiatement votre lettre de mise en demeure officielle pour exiger une baisse et un remboursement.
         </p>
@@ -246,14 +246,13 @@
                   <span class="metric-val highlight" id="infoPanelCeilingM">40.0 € / m²</span>
                 </div>
               </div>
-              <button class="btn btn-sm btn-primary" id="btnApplyArrondissement">
+              <button type="button" class="btn btn-sm btn-primary" id="btnApplyArrondissement">
                 <i class="fa-solid fa-check"></i> Choisir cet arrondissement
               </button>
             </div>
           </div>
         </div>
       </div>
-    </section>
     </section>
 
     <!-- لافتة التجاوز مع زر توليد الخطاب داخلها -->
@@ -263,7 +262,6 @@
         <span id="retro-recovery-text">Trop-perçu détecté</span>
       </div>
 
-      <!-- 👇 زر توليد الخطاب يظهر هنا مباشرة 👇 -->
       <div style="margin-top: 14px;">
         <button type="button" id="btnGenerateLetter" style="background: #dc2626; color: #ffffff; border: none; padding: 10px 22px; font-size: 0.95rem; font-weight: 700; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 4px rgba(220,38,38,0.3); transition: background 0.2s;">
           <i class="fa-solid fa-file-contract" style="margin-right: 6px;"></i> Générer ma lettre de contestation officielle
@@ -271,7 +269,7 @@
       </div>
     </div>
 
-    <!-- 👇 نافذة الخطاب (Modal) توضع مباشرة بعد اللافتة 👇 -->
+    <!-- نافذة الخطاب المنبثقة (Modal) بمعرف زر نسخ مستقل لمنع التعارض -->
     <div id="letterModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(2px); overflow-y: auto;">
       <div style="background: #ffffff; margin: 40px auto; padding: 25px; max-width: 700px; width: 92%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px;">
@@ -289,7 +287,7 @@
         </div>
 
         <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; align-items: center;">
-          <button type="button" id="btnCopyLetter" style="background: #e5e7eb; color: #374151; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">
+          <button type="button" id="btnCopyModalLetter" style="background: #e5e7eb; color: #374151; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">
             <i class="fa-regular fa-copy"></i> Copier le texte
           </button>
           <a href="https://www.merci-facteur.com" target="_blank" rel="noopener noreferrer" style="background: #2563eb; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
@@ -299,12 +297,11 @@
       </div>
     </div>
 
-
     <!-- شبكة بطاقات الشركاء والخدمات (Locataires & Propriétaires) -->
     <div class="affiliate-grid-section">
       <div class="affiliate-cards-container">
 
-        <!-- البطاقة 1: التأمين السكني للمستأجر (MRH) - محسنة ديناميكياً -->
+        <!-- البطاقة 1: التأمين السكني للمستأجر (MRH) -->
         <div class="fintech-card insurance-theme" id="mrh-card">
           <div class="fintech-card-header">
             <span class="fintech-badge" id="mrh-badge">
@@ -987,12 +984,10 @@
   </main>
 
   <!-- Site Footer -->
-  <!-- قسم الروابط الداخلية للأدلة في الفوتر -->
   <footer class="site-footer">
     <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 40px 20px 20px;">
       
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; margin-bottom: 30px; border-bottom: 1px solid #334155; padding-bottom: 30px;">
-        <!-- نبذة سريعة -->
         <div style="max-width: 380px;">
           <h4 style="color: #f8fafc; font-size: 1.1rem; margin-bottom: 10px;">LoyerLégal Paris</h4>
           <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin: 0;">
@@ -1000,7 +995,6 @@
           </p>
         </div>
 
-        <!-- روابط الأدلة لتحسين السيو -->
         <div>
           <h4 style="color: #f8fafc; font-size: 1rem; margin-bottom: 12px; font-weight: 600;">Guides & Conseils</h4>
           <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
@@ -1022,7 +1016,6 @@
           </ul>
         </div>
 
-        <!-- الصفحات القانونية -->
         <div>
           <h4 style="color: #f8fafc; font-size: 1rem; margin-bottom: 12px; font-weight: 600;">Informations</h4>
           <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
@@ -1032,7 +1025,6 @@
         </div>
       </div>
 
-      <!-- حقوق الموقع -->
       <div style="text-align: center; color: #64748b; font-size: 0.85rem;">
         <p style="margin: 0;">&copy; 2026 LoyerLégal Paris. Tous droits réservés.</p>
       </div>
@@ -1041,7 +1033,6 @@
   </footer>
 
   <!-- Modals -->
-  <!-- Mentions Légales Modal -->
   <dialog class="app-modal" id="modalMentions">
     <div class="modal-card">
       <div class="modal-header">
@@ -1059,7 +1050,6 @@
     </div>
   </dialog>
 
-  <!-- Politique de Confidentialité Modal -->
   <dialog class="app-modal" id="modalPrivacy">
     <div class="modal-card">
       <div class="modal-header">
@@ -1079,7 +1069,6 @@
     </div>
   </dialog>
 
-  <!-- Contact Modal -->
   <dialog class="app-modal" id="modalContact">
     <div class="modal-card">
       <div class="modal-header">
