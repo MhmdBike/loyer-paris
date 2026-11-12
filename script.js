@@ -393,34 +393,67 @@ function getRadioValue(name) {
 /* ==========================================================================
    Rent Calculation Logic & Dashboard Update
    ========================================================================== */
+/* ==========================================================================
+   Rent Calculation Logic & Dashboard Update
+   ========================================================================== */
+
+/* ==========================================================================
+   Rent Calculation Logic & Dashboard Update
+   ========================================================================== */
+
 function initCalculator() {
+  // 1. مراقبة تغيير المدخلات لتحديث النتيجة تلقائياً
   const inputs = ['formSurface', 'formRentCurrent', 'formLeaseDate', 'formRentComplement'];
   inputs.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('input', () => {
-        if (AppState.activeResult) calculateRent(false);
+        if (typeof AppState !== 'undefined' && AppState.activeResult) calculateRent(false);
       });
     }
   });
 
   document.querySelectorAll('input[name="locationType"], input[name="roomCount"]').forEach(radio => {
     radio.addEventListener('change', () => {
-      if (AppState.activeResult) calculateRent(false);
+      if (typeof AppState !== 'undefined' && AppState.activeResult) calculateRent(false);
     });
   });
+
+  // 2. ربط زر الحساب ومنع تحديث الصفحة (e.preventDefault)
+  const calcBtn = document.getElementById('btnCalculate');
+  if (calcBtn) {
+    calcBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // يمنع إعادة تحميل الصفحة نهائياً
+      calculateRent(true);
+    });
+  }
+
+  // إذا كان الزر داخل نموذج Form، نمنع أيضاً إرسال النموذج عند الضغط على Enter
+  const rentForm = calcBtn ? calcBtn.closest('form') : document.querySelector('form');
+  if (rentForm) {
+    rentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      calculateRent(true);
+    });
+  }
+
+  // 3. تهيئة قسم خطاب الإنذار والأزرار المرتبطة به
+  initLetterGenerator();
 }
 
 function calculateRent(shouldScroll = false) {
-  const arNumber = parseInt(document.getElementById('formArrondissement').value, 10);
+  const arSelect = document.getElementById('formArrondissement');
+  if (!arSelect) return;
+
+  const arNumber = parseInt(arSelect.value, 10);
   const locationType = getRadioValue('locationType') || 'non_meuble';
   const roomCount = parseInt(getRadioValue('roomCount') || '1', 10);
-  const surface = parseFloat(document.getElementById('formSurface').value);
-  const currentRent = parseFloat(document.getElementById('formRentCurrent').value);
+  const surface = parseFloat(document.getElementById('formSurface')?.value);
+  const currentRent = parseFloat(document.getElementById('formRentCurrent')?.value);
   const rentComplement = parseFloat(document.getElementById('formRentComplement')?.value || 0) || 0;
   const leaseDateVal = document.getElementById('formLeaseDate')?.value || '2024-01-01';
 
-  // Validation
+  // التحقق من صحة المدخلات
   if (isNaN(surface) || surface <= 0 || isNaN(currentRent) || currentRent <= 0) {
     return;
   }
@@ -428,22 +461,21 @@ function calculateRent(shouldScroll = false) {
   const arData = PARIS_ARRONDISSEMENTS.find(a => a.ar === arNumber);
   if (!arData) return;
 
-  // Rates lookup: room index 0 for 1p, 1 for 2p, 2 for 3p, 3 for 4p+
+  // استخراج الأسعار الرسمية
   const roomIndex = Math.min(Math.max(roomCount - 1, 0), 3);
-  const refRent = arData.rates[locationType][roomIndex]; // Median reference rent €/m²
+  const refRent = arData.rates[locationType][roomIndex];
   const ceilingRent = Math.round(refRent * 1.20 * 10) / 10; // Plafond majoré (+20%)
-  const minRent = Math.round(refRent * 0.70 * 10) / 10; // Loyer minoré (-30%)
+  const minRent = Math.round(refRent * 0.70 * 10) / 10;
 
-  // Total legal ceiling in €/month
+  // الحسابات القانونية
   const legalMaxMonthly = Math.round(ceilingRent * surface * 100) / 100;
   const currentRentPerSqm = Math.round((currentRent / surface) * 100) / 100;
 
-  // Monthly excess
   const excessMonthly = Math.max(0, Math.round((currentRent - legalMaxMonthly) * 100) / 100);
   const excessAnnual = Math.round(excessMonthly * 12 * 100) / 100;
 
-  // Calculate elapsed months since lease start (max 36 months prescription triennale)
-  let elapsedMonths = 12; // default
+  // حساب الشهور المنقضية (بحد أقصى 36 شهراً)
+  let elapsedMonths = 12;
   if (leaseDateVal) {
     const leaseDate = new Date(leaseDateVal);
     const now = new Date();
@@ -451,7 +483,7 @@ function calculateRent(shouldScroll = false) {
       const yearDiff = now.getFullYear() - leaseDate.getFullYear();
       const monthDiff = now.getMonth() - leaseDate.getMonth();
       const totalMonths = yearDiff * 12 + monthDiff;
-      elapsedMonths = Math.min(Math.max(totalMonths, 1), 36); // capped at 3 years
+      elapsedMonths = Math.min(Math.max(totalMonths, 1), 36);
     }
   }
 
@@ -459,7 +491,7 @@ function calculateRent(shouldScroll = false) {
   const isIllegal = excessMonthly > 0;
 
   // ==========================================================
-  // تحديث لافتة الاسترجاع بأثر رجعي
+  // تحديث شريط التنبيه بالاسترجاع بأثر رجعي
   // ==========================================================
   const banner = document.getElementById('retro-recovery-banner');
   const textSpan = document.getElementById('retro-recovery-text');
@@ -474,7 +506,7 @@ function calculateRent(shouldScroll = false) {
     }
   }
 
-  // Store active result
+  // حفظ النتائج في الحالة العامة
   AppState.activeResult = {
     arData,
     arNumber,
@@ -496,20 +528,203 @@ function calculateRent(shouldScroll = false) {
     isIllegal
   };
 
-  // Render Dashboard
-  renderResultsDashboard(AppState.activeResult);
+  // تحديث لوحة النتائج
+  if (typeof renderResultsDashboard === 'function') {
+    renderResultsDashboard(AppState.activeResult);
+  }
 
-  // Update Legal Letter Preview
+  // تحديث المعاينة الحية لخطاب الإنذار بالأرقام الجديدة
   updateLetterPreview(AppState.activeResult);
 
-  // Scroll smoothly to results if explicitly requested
+  // التمرير السلس نحو النتيجة
   if (shouldScroll) {
     const resultsWrap = document.getElementById('resultsWrapper');
     if (resultsWrap) {
-      resultsWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      resultsWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 }
+
+/* ==========================================================================
+   Legal Letter Preview & Actions (Générateur de mise en demeure)
+   ========================================================================== */
+
+function updateLetterPreview(res) {
+  const paper = document.getElementById('letterPaper');
+  if (!paper) return;
+
+  // قراءة بيانات الأطراف من النموذج الأيسر
+  const tenantName = document.getElementById('inputTenantName')?.value || 'Jean Dupont';
+  const tenantAddress = document.getElementById('inputTenantAddress')?.value || '12 rue de la Roquette, Bât B, 3ème étage';
+  const tenantPostal = document.getElementById('inputTenantPostal')?.value || '75011';
+  const tenantPhone = document.getElementById('inputTenantPhone')?.value || '06 12 34 56 78';
+
+  const landlordName = document.getElementById('inputLandlordName')?.value || 'M. Pierre Martin (Bailleur)';
+  const landlordAddress = document.getElementById('inputLandlordAddress')?.value || '45 avenue de la République, 75011 Paris';
+
+  const city = document.getElementById('inputLetterCity')?.value || 'Paris';
+  const dateInput = document.getElementById('inputLetterDate')?.value;
+  const formattedDate = dateInput 
+    ? new Date(dateInput).toLocaleDateString('fr-FR') 
+    : new Date().toLocaleDateString('fr-FR');
+
+  // جلب الأرقام من الحاسبة
+  const rent = res?.currentRent ? `${res.currentRent.toLocaleString('fr-FR')} €` : '______ €';
+  const surface = res?.surface ? `${res.surface} m²` : '______ m²';
+  const legalCeiling = res?.legalMaxMonthly ? `${res.legalMaxMonthly.toLocaleString('fr-FR')} €` : '______ €';
+  const excess = res?.excessMonthly ? `${res.excessMonthly.toLocaleString('fr-FR')} €` : '______ €';
+  const retroTotal = res?.excessMonthly 
+    ? `${Math.round(res.excessMonthly * 36).toLocaleString('fr-FR')} €` 
+    : '______ €';
+
+  // كتابة نص الخطاب داخل ورقة المعاينة (تستبدل نص ddf)
+  paper.innerHTML = `
+    <div style="font-family: 'Times New Roman', Times, serif; font-size: 1.05rem; line-height: 1.6; color: #111827;">
+      
+      <div style="margin-bottom: 25px;">
+        <strong>${tenantName}</strong><br>
+        ${tenantAddress}<br>
+        ${tenantPostal} Paris<br>
+        Tél / Email : ${tenantPhone}
+      </div>
+
+      <div style="margin-bottom: 30px; text-align: right;">
+        <strong>À l'attention de :</strong><br>
+        <strong>${landlordName}</strong><br>
+        ${landlordAddress}
+      </div>
+
+      <p style="margin-bottom: 20px;">Fait à <strong>${city}</strong>, le <strong>${formattedDate}</strong></p>
+
+      <div style="margin-bottom: 25px; padding-bottom: 8px; border-bottom: 1.5px solid #111;">
+        <strong>Objet : Mise en demeure – Non-respect de l'encadrement des loyers et restitution du trop-perçu</strong><br>
+        <span style="font-size: 0.95rem; font-style: italic;">Lettre recommandée avec accusé de réception (LRAR)</span>
+      </div>
+
+      <p>Madame, Monsieur,</p>
+
+      <p>
+        Locataire du logement situé au <strong>${tenantAddress} (${tenantPostal} Paris)</strong>, sous contrat de bail en cours, je vous informe par la présente que le loyer appliqué à mon logement ne respecte pas les dispositions légales relatives à l'encadrement des loyers à Paris.
+      </p>
+
+      <p>
+        Actuellement, mon loyer hors charges s'élève à <strong>${rent} / mois</strong> pour une surface habitable de <strong>${surface}</strong>.
+      </p>
+
+      <p>
+        Or, en application de <strong>l'article 140 de la loi ÉLAN n° 2018-1021</strong> et de l'arrêté préfectoral fixant les loyers de référence dans la zone concernée :
+      </p>
+
+      <ul style="margin: 15px 0 15px 25px;">
+        <li>Le loyer de référence majoré (plafond légal indépassable) est fixé à : <strong>${legalCeiling} / mois</strong>.</li>
+        <li>Le dépassement illégal mensuel constaté s'élève à : <strong style="color: #b91c1c;">${excess} / mois</strong>.</li>
+      </ul>
+
+      <p>
+        En conséquence, je vous mets formellement en demeure par la présente de :
+      </p>
+
+      <ol style="margin: 15px 0 15px 25px;">
+        <li><strong>Abaisser mon loyer mensuel</strong> au montant légal de <strong>${legalCeiling}</strong> dès la prochaine échéance de loyer.</li>
+        <li><strong>Me rembourser la somme totale perçue en trop</strong> au titre de la prescription triennale légale (3 ans), soit un montant estimé à <strong style="color: #b91c1c;">${retroTotal}</strong>.</li>
+      </ol>
+
+      <p>
+        À défaut de réponse favorable de votre part ou d'un accord écrit dans un délai strict de <strong>30 jours</strong> à compter de la réception de la présente, je saisirai la <strong>Commission Départementale de Conciliation (CDC)</strong> de Paris, et transmettrai le dossier aux services de la Préfecture afin que soient prononcées les sanctions prévues par la loi.
+      </p>
+
+      <p style="margin-top: 25px;">
+        Espérant qu'un règlement amiable permettra d'éviter ces démarches, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+      </p>
+
+      <p style="margin-top: 35px;">
+        <strong>${tenantName}</strong><br>
+        <em>[Signature]</em>
+      </p>
+
+    </div>
+  `;
+}
+
+function initLetterGenerator() {
+  // ضبط تاريخ اليوم في خانة التاريخ
+  const dateInput = document.getElementById('inputLetterDate');
+  if (dateInput && !dateInput.value) {
+    dateInput.value = new Date().toISOString().split('T')[0];
+  }
+
+  // الاستماع للكتابة في حقول الخطاب لتحديث النص مباشرة
+  const letterInputs = [
+    'inputTenantName', 'inputTenantAddress', 'inputTenantPostal', 'inputTenantPhone',
+    'inputLandlordName', 'inputLandlordAddress', 'inputLetterCity', 'inputLetterDate'
+  ];
+
+  letterInputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', () => {
+        updateLetterPreview(typeof AppState !== 'undefined' ? AppState.activeResult : null);
+      });
+    }
+  });
+
+  // 1. زر النسخ (btnCopyLetter)
+  const btnCopy = document.getElementById('btnCopyLetter');
+  const copyToast = document.getElementById('copyToast');
+
+  if (btnCopy) {
+    btnCopy.addEventListener('click', () => {
+      const paper = document.getElementById('letterPaper');
+      if (!paper) return;
+
+      navigator.clipboard.writeText(paper.innerText).then(() => {
+        if (copyToast) {
+          copyToast.classList.remove('hidden');
+          setTimeout(() => copyToast.classList.add('hidden'), 3000);
+        }
+      });
+    });
+  }
+
+  // 2. زر الطباعة / PDF (btnPrintLetter)
+  const btnPrint = document.getElementById('btnPrintLetter');
+  if (btnPrint) {
+    btnPrint.addEventListener('click', () => {
+      window.print();
+    });
+  }
+
+  // 3. زر التحميل النصي (btnDownloadTxt)
+  const btnDownload = document.getElementById('btnDownloadTxt');
+  if (btnDownload) {
+    btnDownload.addEventListener('click', () => {
+      const paper = document.getElementById('letterPaper');
+      if (!paper) return;
+
+      const blob = new Blob([paper.innerText], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Mise_en_demeure_loyer_${new Date().toISOString().split('T')[0]}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    });
+  }
+
+  // استدعاء أولي للمعاينة عند فتح الصفحة
+  updateLetterPreview(typeof AppState !== 'undefined' ? AppState.activeResult : null);
+}
+
+// تشغيل التهيئة عند اكتمال تحميل عناصر الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+  initCalculator();
+});
+
+// تشغيل التهيئة عند اكتمال تحميل عناصر الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+  initCalculator();
+});
 
 function renderResultsDashboard(result) {
   const placeholder = document.getElementById('resultsPlaceholder');
