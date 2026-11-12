@@ -744,73 +744,12 @@ function initLetterGenerator() {
   // 2. زر الطباعة / PDF (btnPrintLetter)
   // --- زر الطباعة / حفظ كـ PDF نظيف بدون عناصر الموقع ---
   // --- زر الطباعة / حفظ كـ PDF نظيف (عبر إطار مخفي يمنع مشاكل الإلغاء) ---
+  // --- زر الطباعة / PDF ---
   const btnPrint = document.getElementById('btnPrintLetter');
   if (btnPrint) {
     btnPrint.addEventListener('click', (e) => {
-      e.preventDefault(); // يمنع أي سلوك افتراضي أو إعادة تحميل
-
-      const paper = document.getElementById('letterPaper');
-      if (!paper) return;
-
-      // إزالة أي إطار قديم إن وجد
-      const oldFrame = document.getElementById('printIframeHidden');
-      if (oldFrame) oldFrame.remove();
-
-      // إنشاء إطار مؤقت خفي تماماً
-      const iframe = document.createElement('iframe');
-      iframe.id = 'printIframeHidden';
-      iframe.style.position = 'fixed';
-      iframe.style.right = '0';
-      iframe.style.bottom = '0';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = '0';
-      document.body.appendChild(iframe);
-
-      const frameDoc = iframe.contentWindow.document;
-      frameDoc.open();
-      frameDoc.write(`
-        <!DOCTYPE html>
-        <html lang="fr">
-        <head>
-          <meta charset="UTF-8">
-          <title>Mise en demeure - Loi ÉLAN</title>
-          <style>
-            @page {
-              size: A4;
-              margin: 20mm;
-            }
-            body {
-              font-family: 'Times New Roman', Times, serif;
-              font-size: 11pt;
-              line-height: 1.5;
-              color: #000000;
-              background: #ffffff;
-              margin: 0;
-              padding: 0;
-            }
-            p { margin: 0 0 12px 0; }
-            ul, ol { margin: 10px 0 15px 20px; }
-            li { margin-bottom: 6px; }
-            strong { font-weight: bold; }
-          </style>
-        </head>
-        <body>
-          ${paper.innerHTML}
-        </body>
-        </html>
-      `);
-      frameDoc.close();
-
-      // تشغيل أمر الطباعة بمجرد تحميل الإطار المخفي
-      iframe.contentWindow.focus();
-      setTimeout(() => {
-        iframe.contentWindow.print();
-        // إزالة الإطار من الصفحة بعد الانتهاء أو الإلغاء
-        setTimeout(() => {
-          if (iframe.parentNode) iframe.remove();
-        }, 1500);
-      }, 300);
+      e.preventDefault();
+      window.print(); // سيقوم الـ CSS تلقائياً بعزل ورقة الخطاب وإخفاء الموقع
     });
   }
 
