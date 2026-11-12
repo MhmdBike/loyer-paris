@@ -645,12 +645,18 @@ function updateInsuranceCard(isOverpriced) {
   }
 }
 
-function updateLetterPreview(result) {
+/* ==========================================================================
+   Générateur de Mise en Demeure (Live Preview & Actions)
+   ========================================================================== */
+
+// 1. دالة تحديث ورقة المعاينة الحية
+function updateLetterPreview(res) {
   const paper = document.getElementById('letterPaper');
   if (!paper) return;
 
+  // جلب بيانات أطراف العقد من الحقول
   const tenantName = document.getElementById('inputTenantName')?.value || 'Jean Dupont';
-  const tenantAddress = document.getElementById('inputTenantAddress')?.value || '12 rue de la Roquette';
+  const tenantAddress = document.getElementById('inputTenantAddress')?.value || '12 rue de la Roquette, Bât B, 3ème étage';
   const tenantPostal = document.getElementById('inputTenantPostal')?.value || '75011';
   const tenantPhone = document.getElementById('inputTenantPhone')?.value || '06 12 34 56 78';
 
@@ -658,114 +664,173 @@ function updateLetterPreview(result) {
   const landlordAddress = document.getElementById('inputLandlordAddress')?.value || '45 avenue de la République, 75011 Paris';
 
   const city = document.getElementById('inputLetterCity')?.value || 'Paris';
-  const dateVal = document.getElementById('inputLetterDate')?.value || new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('inputLetterDate')?.value;
+  const formattedDate = dateInput 
+    ? new Date(dateInput).toLocaleDateString('fr-FR') 
+    : new Date().toLocaleDateString('fr-FR');
 
-  let formattedDate = '30 octobre 2026';
-  try {
-    const d = new Date(dateVal);
-    if (!isNaN(d.getTime())) {
-      formattedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
-    }
-  } catch (e) {}
+  // جلب البيانات الحسابية من الحاسبة (AppState.activeResult)
+  const currentRent = res?.currentRent ? `${res.currentRent.toLocaleString('fr-FR')} €` : '______ €';
+  const surface = res?.surface ? `${res.surface} m²` : '______ m²';
+  const legalCeiling = res?.legalMaxMonthly ? `${res.legalMaxMonthly.toLocaleString('fr-FR')} €` : '______ €';
+  const excessMonthly = res?.excessMonthly ? `${res.excessMonthly.toLocaleString('fr-FR')} €` : '______ €';
+  
+  // حساب المبلغ التراكمي لـ 3 سنوات (36 شهراً)
+  const retroTotal = res?.excessMonthly 
+    ? `${Math.round(res.excessMonthly * 36).toLocaleString('fr-FR')} €` 
+    : '______ €';
 
-  const fmt = (num) => new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num);
-
-  const suffix = result.arNumber === 1 ? '1er' : result.arNumber + 'ème';
-  const furnishingLabel = result.locationType === 'meuble' ? 'meublé' : 'non meublé (vide)';
-  const roomLabel = result.roomCount === 1 ? '1 pièce principale (Studio)' : result.roomCount + ' pièces principales';
-
-  const letterHtml = `
-    <div class="letter-header-block">
-      <div class="letter-sender">
-        <strong>${escapeHtml(tenantName)}</strong><br>
-        ${escapeHtml(tenantAddress)}<br>
-        ${escapeHtml(tenantPostal)} Paris<br>
-        Tél / Email : ${escapeHtml(tenantPhone)}
+  // كتابة نص الخطاب داخل ورقة المعاينة
+  paper.innerHTML = `
+    <div style="font-family: 'Times New Roman', Times, serif; font-size: 1.05rem; line-height: 1.6; color: #111827;">
+      
+      <!-- ترويسة المرسل (المستأجر) -->
+      <div style="margin-bottom: 25px;">
+        <strong>${tenantName}</strong><br>
+        ${tenantAddress}<br>
+        ${tenantPostal} Paris<br>
+        Tél / Email : ${tenantPhone}
       </div>
-      <div class="letter-recipient">
+
+      <!-- ترويسة المرسل إليه (المالك) -->
+      <div style="margin-bottom: 30px; text-align: right;">
         <strong>À l'attention de :</strong><br>
-        <strong>${escapeHtml(landlordName)}</strong><br>
-        ${escapeHtml(landlordAddress)}
+        <strong>${landlordName}</strong><br>
+        ${landlordAddress}
       </div>
-    </div>
 
-    <div class="letter-meta">
-      <div class="letter-date">Fait à ${escapeHtml(city)}, le ${formattedDate}</div>
-      <div class="letter-registered-notice">
-        <i class="fa-solid fa-envelope"></i> LETTRE RECOMMANDÉE AVEC ACCUSÉ DE RÉCEPTION (LRAR)
-      </div>
-      <div class="letter-object">
-        <strong>OBJET :</strong> Mise en demeure de mise en conformité du loyer et remboursement des loyers trop-perçus<br>
-        <strong>RÉFÉRENCE :</strong> Application de l'article 140 de la loi n° 2018-1021 du 23 novembre 2018 (loi ÉLAN) et des arrêtés préfectoraux de fixation des loyers de référence dans la commune de Paris.
-      </div>
-    </div>
+      <!-- المدينة والتاريخ -->
+      <p style="margin-bottom: 20px;">Fait à <strong>${city}</strong>, le <strong>${formattedDate}</strong></p>
 
-    <div class="letter-body">
+      <!-- موضوع الرسالة -->
+      <div style="margin-bottom: 25px; padding-bottom: 8px; border-bottom: 1.5px solid #111;">
+        <strong>Objet : Mise en demeure – Non-respect de l'encadrement des loyers et restitution du trop-perçu</strong><br>
+        <span style="font-size: 0.95rem; font-style: italic;">Lettre recommandée avec accusé de réception (LRAR)</span>
+      </div>
+
+      <!-- نص الخطاب القانوني -->
       <p>Madame, Monsieur,</p>
 
       <p>
-        Je suis actuellement locataire du logement situé au <strong>${escapeHtml(tenantAddress)}, ${escapeHtml(tenantPostal)} Paris</strong>, en vertu d'un contrat de bail d'habitation portant sur un logement <strong>${furnishingLabel}</strong> comportant <strong>${roomLabel}</strong>, d'une surface habitable déclarée de <strong>${result.surface} m²</strong>.
+        Locataire du logement situé au <strong>${tenantAddress} (${tenantPostal} Paris)</strong>, sous contrat de bail en cours, je vous informe par la présente que le loyer appliqué à mon logement ne respecte pas les dispositions légales relatives à l'encadrement des loyers à Paris.
       </p>
 
       <p>
-        Le loyer mensuel hors charges actuellement appliqué et prélevé s'élève à <strong>${fmt(result.currentRent)} € par mois</strong> (hors charges locatives).
+        Actuellement, mon loyer hors charges s'élève à <strong>${currentRent} / mois</strong> pour une surface habitable de <strong>${surface}</strong>.
       </p>
 
       <p>
-        Or, je vous rappelle que ce logement est expressément soumis au dispositif légal d'encadrement des loyers réaffirmé par l'article 140 de la loi ÉLAN n° 2018-1021 du 23 novembre 2018 et déterminé par l'arrêté préfectoral annuel en vigueur pour la commune de Paris.
+        Or, en application de <strong>l'article 140 de la loi ÉLAN n° 2018-1021</strong> et de l'arrêté préfectoral fixant les loyers de référence dans la zone concernée :
       </p>
 
-      <p>
-        Pour le secteur correspondant au <strong>${suffix} arrondissement de Paris</strong> (${result.arData.name}) et au regard des caractéristiques du bien loué, les montants réglementaires applicables au mètre carré de surface habitable sont les suivants :
-      </p>
-
-      <div class="letter-highlight-box">
-        • Loyer de référence médian : <strong>${fmt(result.refRent)} € / m²</strong><br>
-        • Loyer de référence majoré (Plafond légal indépassable) : <strong>${fmt(result.ceilingRent)} € / m²</strong><br>
-        • Surface habitable prise en compte : <strong>${result.surface} m²</strong><br>
-        • <strong>Loyer mensuel légal maximum autorisé : ${result.surface} m² × ${fmt(result.ceilingRent)} €/m² = ${fmt(result.legalMaxMonthly)} € / mois</strong>
-      </div>
-
-      <p>
-        Par conséquent, le loyer hors charges de <strong>${fmt(result.currentRent)} €</strong> qui m'est facturé excède le plafond légal de référence majoré de <strong>+${fmt(result.excessMonthly)} € chaque mois</strong> (soit une surfacturation annuelle de <strong>${fmt(result.excessAnnual)} €</strong>). En l'absence de caractéristiques exceptionnelles de confort ou de localisation justifiant valablement un complément de loyer au sens de l'article 140-III de la loi précitée, ce dépassement est strictement illégal.
-      </p>
-
-      <p>
-        <strong>PAR LA PRÉSENTE VALANT MISE EN DEMEURE AU SENS DE L'ARTICLE 1344 DU CODE CIVIL :</strong>
-      </p>
-
-      <ol class="letter-demands-list">
-        <li>
-          <strong>Diminution immédiate du loyer :</strong> Je vous mets en demeure d'ajuster immédiatement le montant de mon loyer mensuel hors charges pour le ramener au plafond légal de <strong>${fmt(result.legalMaxMonthly)} € par mois</strong>, et ce dès la prochaine échéance locative.
-        </li>
-        <li>
-          <strong>Remboursement des sommes indûment perçues :</strong> En application de la répétition de l'indu (article 1302 du Code civil) et dans la limite du délai triennal de prescription de l'article 7-1 de la loi du 6 juillet 1989, je vous mets en demeure de procéder, sous un délai de quinze (15) jours, au remboursement de la somme totale de <strong>${fmt(result.totalRefund)} €</strong> correspondant aux ${result.elapsedMonths} mois de surfacturation indue constatée.
-        </li>
-      </ol>
-
-      <p>
-        À défaut de réponse favorable de votre part ou de régularisation dans un délai de deux (2) mois à compter de la réception de ce pli :
-      </p>
-
-      <ul>
-        <li>Je saisirai sans autre avis la <strong>Commission Départementale de Conciliation (CDC de Paris)</strong> territorialement compétente ;</li>
-        <li>Je transmettrai un signalement officiel aux services de la <strong>Mairie de Paris</strong> chargés du contrôle de l'encadrement des loyers, en vue de l'ouverture de la procédure administrative de sanction pouvant donner lieu à une amende allant jusqu'à <strong>5 000 €</strong> pour une personne physique et <strong>15 000 €</strong> pour une personne morale (article 140-VII de la loi ÉLAN) ;</li>
-        <li>Je porterai le litige devant le <strong>juge des contentieux de la protection du Tribunal Judiciaire de Paris</strong> aux fins de diminution judiciaire du loyer, répétition des loyers indûment perçus assortie des intérêts au taux légal, et condamnation aux dépens.</li>
+      <ul style="margin: 15px 0 15px 25px;">
+        <li>Le loyer de référence majoré (plafond légal indépassable) est fixé à : <strong>${legalCeiling} / mois</strong>.</li>
+        <li>Le dépassement illégal mensuel constaté s'élève à : <strong style="color: #b91c1c;">${excessMonthly} / mois</strong>.</li>
       </ul>
 
       <p>
-        Espérant qu'une solution amiable permettra de rétablir la conformité de notre relation locative avec le droit en vigueur, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+        En conséquence, je vous mets formellement en demeure par la présente de :
       </p>
 
-      <div class="letter-signature-block">
-        <p><strong>${escapeHtml(tenantName)}</strong></p>
-        <p><em>(Signature)</em></p>
-      </div>
+      <ol style="margin: 15px 0 15px 25px;">
+        <li><strong>Abaisser mon loyer mensuel</strong> au montant légal de <strong>${legalCeiling}</strong> dès la prochaine échéance de loyer.</li>
+        <li><strong>Me rembourser la somme totale perçue en trop</strong> au titre de la prescription triennale légale (3 ans), soit un montant estimé à <strong style="color: #b91c1c;">${retroTotal}</strong>.</li>
+      </ol>
+
+      <p>
+        À défaut de réponse favorable de votre part ou d'un accord écrit dans un délai strict de <strong>30 jours</strong> à compter de la réception de la présente, je saisirai la <strong>Commission Départementale de Conciliation (CDC)</strong> de Paris, et transmettrai le dossier aux services de la Préfecture afin que soient prononcées les amendes administratives prévues par la loi (jusqu'à 5 000 € pour une personne physique et 15 000 € pour une personne morale).
+      </p>
+
+      <p style="margin-top: 25px;">
+        Espérant qu'un règlement amiable et rapide de cette situation évitera l'ouverture de ces procédures, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+      </p>
+
+      <p style="margin-top: 35px;">
+        <strong>${tenantName}</strong><br>
+        <em>[Signature]</em>
+      </p>
+
     </div>
   `;
-
-  paper.innerHTML = letterHtml;
 }
+
+// 2. تفعيل التفاعل مع الحقول وتشغيل الأزرار عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+  // ضبط تاريخ اليوم تلقائياً في حقل التاريخ إذا كان فارغاً
+  const dateInput = document.getElementById('inputLetterDate');
+  if (dateInput && !dateInput.value) {
+    dateInput.value = new Date().toISOString().split('T')[0];
+  }
+
+  // تحديث المعاينة الحية فور الكتابة في أي حقل من حقول الخطاب
+  const inputIds = [
+    'inputTenantName', 'inputTenantAddress', 'inputTenantPostal', 'inputTenantPhone',
+    'inputLandlordName', 'inputLandlordAddress', 'inputLetterCity', 'inputLetterDate'
+  ];
+
+  inputIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', () => {
+        if (typeof AppState !== 'undefined' && AppState.activeResult) {
+          updateLetterPreview(AppState.activeResult);
+        } else {
+          updateLetterPreview(null);
+        }
+      });
+    }
+  });
+
+  // تشغيل المعاينة المبدئية عند التحميل
+  updateLetterPreview(typeof AppState !== 'undefined' ? AppState.activeResult : null);
+
+  // --- زر النسخ (btnCopyLetter) ---
+  const btnCopy = document.getElementById('btnCopyLetter');
+  const copyToast = document.getElementById('copyToast');
+
+  if (btnCopy) {
+    btnCopy.addEventListener('click', () => {
+      const paper = document.getElementById('letterPaper');
+      if (!paper) return;
+
+      navigator.clipboard.writeText(paper.innerText).then(() => {
+        if (copyToast) {
+          copyToast.classList.remove('hidden');
+          setTimeout(() => {
+            copyToast.classList.add('hidden');
+          }, 3000);
+        }
+      });
+    });
+  }
+
+  // --- زر الطباعة / PDF (btnPrintLetter) ---
+  const btnPrint = document.getElementById('btnPrintLetter');
+  if (btnPrint) {
+    btnPrint.addEventListener('click', () => {
+      window.print();
+    });
+  }
+
+  // --- زر تحميل ملف نصي (btnDownloadTxt) ---
+  const btnDownload = document.getElementById('btnDownloadTxt');
+  if (btnDownload) {
+    btnDownload.addEventListener('click', () => {
+      const paper = document.getElementById('letterPaper');
+      if (!paper) return;
+
+      const text = paper.innerText;
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Mise_en_demeure_loyer_${new Date().toISOString().split('T')[0]}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    });
+  }
+});
 
 function escapeHtml(str) {
   if (!str) return '';
