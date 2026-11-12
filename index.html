@@ -37,6 +37,67 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- 👇 كود عزل ورقة الخطاب وضبط طباعة A4 فوراً 👇 -->
+  <style>
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 15mm 20mm;
+      }
+
+      /* 1. إخفاء كل العناصر المباشرة داخل body ما عدا قسم الخطاب */
+      body > *:not(#generateur-lettre) {
+        display: none !important;
+      }
+
+      /* 2. إخفاء العناصر غير المرغوبة داخل قسم الخطاب (العنوان، نموذج البيانات، الأزرار) */
+      #generateur-lettre .section-header,
+      #generateur-lettre .letter-params-card,
+      #generateur-lettre .letter-paper-header-badge,
+      #generateur-lettre .letter-actions-panel {
+        display: none !important;
+      }
+
+      /* 3. إلغاء الخلفيات والظلال لجعل الصفحة نظيفة تماماً */
+      html, body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        min-height: auto !important;
+      }
+
+      #generateur-lettre,
+      .letter-section,
+      .container,
+      .letter-layout,
+      .letter-paper-wrap {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      /* 4. تنسيق ورقة الخطاب A4 الرسمية */
+      #letterPaper {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Times New Roman', Times, serif !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+      }
+    }
+  </style>
 </head>
 <body>
 

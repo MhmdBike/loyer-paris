@@ -745,12 +745,14 @@ function initLetterGenerator() {
   // --- زر الطباعة / حفظ كـ PDF نظيف بدون عناصر الموقع ---
   // --- زر الطباعة / حفظ كـ PDF نظيف (عبر إطار مخفي يمنع مشاكل الإلغاء) ---
   // --- زر الطباعة / PDF ---
+  // --- زر الطباعة / حفظ كـ PDF (مع منع التكرار وإصلاح زر Cancel) ---
+  // ربط مباشر يلغي أي تكرار قديم ويغلق نافذة الطباعة بسلاسة عند الضغط على Cancel
   const btnPrint = document.getElementById('btnPrintLetter');
   if (btnPrint) {
-    btnPrint.addEventListener('click', (e) => {
+    btnPrint.onclick = (e) => {
       e.preventDefault();
-      window.print(); // سيقوم الـ CSS تلقائياً بعزل ورقة الخطاب وإخفاء الموقع
-    });
+      window.print();
+    };
   }
 
   // 3. زر التحميل النصي (btnDownloadTxt)
