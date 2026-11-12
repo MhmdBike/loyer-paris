@@ -669,28 +669,148 @@ function initLetterGenerator() {
   });
 
   // 1. زر النسخ (btnCopyLetter)
+  // --- زر نسخ الخطاب (يعمل على جميع المتصفحات والأنظمة بدون استثناء) ---
   const btnCopy = document.getElementById('btnCopyLetter');
-  const copyToast = document.getElementById('copyToast');
-
   if (btnCopy) {
-    btnCopy.addEventListener('click', () => {
+    btnCopy.addEventListener('click', (e) => {
+      e.preventDefault();
+
       const paper = document.getElementById('letterPaper');
       if (!paper) return;
 
-      navigator.clipboard.writeText(paper.innerText).then(() => {
-        if (copyToast) {
-          copyToast.classList.remove('hidden');
-          setTimeout(() => copyToast.classList.add('hidden'), 3000);
-        }
-      });
+      const textToCopy = paper.innerText || paper.textContent || '';
+      if (!textToCopy.trim()) return;
+
+      // دالة مساعدة لتقديم تأكيد بصري فوري على الزر نفسه
+      const showSuccessFeedback = () => {
+        const originalHTML = btnCopy.innerHTML;
+        const originalBg = btnCopy.style.backgroundColor;
+
+        // تغيير مظهر الزر فورياً إلى الأخضر
+        btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> Copié dans le presse-papier !';
+        btnCopy.style.backgroundColor = '#16a34a';
+
+        // إظهار التوست إن وجد
+        const copyToast = document.getElementById('copyToast');
+        if (copyToast) copyToast.classList.remove('hidden');
+
+        // إعادة الزر إلى شكله الأصلي بعد ثانيتين ونصف
+        setTimeout(() => {
+          btnCopy.innerHTML = originalHTML;
+          btnCopy.style.backgroundColor = originalBg;
+          if (copyToast) copyToast.classList.add('hidden');
+        }, 2500);
+      };
+
+      // 1. المحاولة الأولى: عبر Clipboard API الحديثة
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            showSuccessFeedback();
+          })
+          .catch(() => {
+            fallbackCopy(textToCopy, showSuccessFeedback);
+          });
+      } else {
+        // 2. المحاولة الثانية (Fallback): للمتصفحات المقيدة أو التصفح العادي
+        fallbackCopy(textToCopy, showSuccessFeedback);
+      }
     });
   }
 
+  // دالة النسخ الاحتياطية المتوافقة 100% مع الهواتف والمتصفحات القديمة
+  function fallbackCopy(text, callback) {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '-9999px';
+      textArea.style.left = '-9999px';
+      textArea.setAttribute('readonly', '');
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      if (successful && callback) {
+        callback();
+      }
+    } catch (err) {
+      console.error('Erreur lors de la copie du texte :', err);
+    }
+  }
+
   // 2. زر الطباعة / PDF (btnPrintLetter)
+  // --- زر الطباعة / حفظ كـ PDF نظيف بدون عناصر الموقع ---
+  // --- زر الطباعة / حفظ كـ PDF نظيف (عبر إطار مخفي يمنع مشاكل الإلغاء) ---
   const btnPrint = document.getElementById('btnPrintLetter');
   if (btnPrint) {
-    btnPrint.addEventListener('click', () => {
-      window.print();
+    btnPrint.addEventListener('click', (e) => {
+      e.preventDefault(); // يمنع أي سلوك افتراضي أو إعادة تحميل
+
+      const paper = document.getElementById('letterPaper');
+      if (!paper) return;
+
+      // إزالة أي إطار قديم إن وجد
+      const oldFrame = document.getElementById('printIframeHidden');
+      if (oldFrame) oldFrame.remove();
+
+      // إنشاء إطار مؤقت خفي تماماً
+      const iframe = document.createElement('iframe');
+      iframe.id = 'printIframeHidden';
+      iframe.style.position = 'fixed';
+      iframe.style.right = '0';
+      iframe.style.bottom = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = '0';
+      document.body.appendChild(iframe);
+
+      const frameDoc = iframe.contentWindow.document;
+      frameDoc.open();
+      frameDoc.write(`
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+          <meta charset="UTF-8">
+          <title>Mise en demeure - Loi ÉLAN</title>
+          <style>
+            @page {
+              size: A4;
+              margin: 20mm;
+            }
+            body {
+              font-family: 'Times New Roman', Times, serif;
+              font-size: 11pt;
+              line-height: 1.5;
+              color: #000000;
+              background: #ffffff;
+              margin: 0;
+              padding: 0;
+            }
+            p { margin: 0 0 12px 0; }
+            ul, ol { margin: 10px 0 15px 20px; }
+            li { margin-bottom: 6px; }
+            strong { font-weight: bold; }
+          </style>
+        </head>
+        <body>
+          ${paper.innerHTML}
+        </body>
+        </html>
+      `);
+      frameDoc.close();
+
+      // تشغيل أمر الطباعة بمجرد تحميل الإطار المخفي
+      iframe.contentWindow.focus();
+      setTimeout(() => {
+        iframe.contentWindow.print();
+        // إزالة الإطار من الصفحة بعد الانتهاء أو الإلغاء
+        setTimeout(() => {
+          if (iframe.parentNode) iframe.remove();
+        }, 1500);
+      }, 300);
     });
   }
 
