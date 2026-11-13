@@ -1133,32 +1133,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentTheme = localStorage.getItem('theme_preference') || 'system';
   applyTheme(currentTheme);
 });
+// ==========================================
+// إدارة نافذة التواصل الاحترافية (Contact Modal)
+// ==========================================
 
-// ==========================================
-// تشغيل نافذة التواصل الاحترافية (مؤمّنة 100%)
-// ==========================================
+// 1. فتح النافذة
 window.openContactModal = function() {
   const modal = document.getElementById('contactModal');
-  if (!modal) {
-    console.error("عنصر #contactModal غير موجود في كود الـ HTML!");
-    alert("نافذة التواصل لم تُضف إلى الصفحة بعد. تأكد من لصق كود dialog في index.html");
-    return;
-  }
-  
-  // إعادة ضبط النموذج وحالة النجاح
-  document.getElementById('contactForm')?.reset();
-  document.getElementById('contactForm')?.classList.remove('hidden');
-  document.getElementById('contactSuccessState')?.classList.add('hidden');
-  
-  // فتح النافذة
-  if (typeof modal.showModal === 'function') {
-    modal.showModal();
-  } else {
-    // دعم احتياطي للمتصفحات القديمة
-    modal.setAttribute('open', '');
+  if (modal) {
+    document.getElementById('contactForm')?.reset();
+    document.getElementById('contactForm')?.classList.remove('hidden');
+    document.getElementById('contactSuccessState')?.classList.add('hidden');
+    
+    if (typeof modal.showModal === 'function') {
+      modal.showModal();
+    } else {
+      modal.setAttribute('open', '');
+    }
   }
 };
 
+// 2. إغلاق النافذة
 window.closeContactModal = function() {
   const modal = document.getElementById('contactModal');
   if (modal) {
@@ -1169,3 +1164,65 @@ window.closeContactModal = function() {
     }
   }
 };
+
+// 3. إرسال الرسالة إلى بريدك عبر Web3Forms
+async function handleContactSubmit(event) {
+  event.preventDefault();
+  
+  const btn = document.getElementById('btnSubmitContact');
+  const form = document.getElementById('contactForm');
+  const successState = document.getElementById('contactSuccessState');
+
+  const emailVal = document.getElementById('contactEmail').value;
+  const subjectVal = document.getElementById('contactSubject').value;
+  const messageVal = document.getElementById('contactMessage').value;
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi en cours...';
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Accept': 'application/json' 
+      },
+      body: JSON.stringify({
+        // ضع المفتاح الذي وصلك من Web3Forms هنا بين علامتي التنصيص
+        access_key: '1dd3f213-7bd4-4ad8-a3cf-7b8d5c56d1fd',
+        from_name: 'LoyerLégal Paris Contact',
+        email: emailVal,
+        subject: `[LoyerParis] ${subjectVal}`,
+        message: messageVal
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      form.classList.add('hidden');
+      successState.classList.remove('hidden');
+    } else {
+      alert("Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous écrire à contact@loyerparis.app");
+    }
+  } catch (error) {
+    alert("Impossible de joindre le serveur. Vous pouvez nous écrire directement à contact@loyerparis.app");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Envoyer le message';
+  }
+}
+
+// 4. نسخ البريد بنقرة واحدة
+function copyModalEmail(btnElement) {
+  const email = "contact@loyerparis.app";
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(email).then(() => {
+      const originalText = btnElement.innerHTML;
+      btnElement.innerHTML = '<i class="fa-solid fa-check" style="color:#10b981;"></i> Copié !';
+      setTimeout(() => {
+        btnElement.innerHTML = originalText;
+      }, 2000);
+    });
+  }
+}
