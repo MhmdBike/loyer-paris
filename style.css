@@ -3187,6 +3187,71 @@ button, input, select, textarea {
   color: #000000 !important;
   font-weight: 700 !important;
 }
+/* ========================================================
+   إصلاح الوضع المظلم لقسم فاحص الإعلانات والجدول
+   ======================================================== */
+
+/* 1. تعتيم خلفية قسم الفحص بالكامل */
+[data-theme="dark"] .ad-scanner-section,
+[data-theme="dark"] #scanner,
+[data-theme="dark"] .saved-ads-section,
+[data-theme="dark"] #mes-annonces {
+  background-color: #0b0f19 !important;
+  background-image: none !important;
+  border-color: #1f2937 !important;
+}
+
+/* 2. تعتيم حقل إدخال الإعلان (Textarea) والنص داخله */
+[data-theme="dark"] .scanner-input-wrap textarea,
+[data-theme="dark"] #rawAdText {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .scanner-input-wrap textarea::placeholder,
+[data-theme="dark"] #rawAdText::placeholder {
+  color: #64748b !important;
+}
+
+/* 3. تنسيق زر "Effacer la liste" وإلغاء خلفيته البيضاء */
+[data-theme="dark"] #btnClearSaved,
+[data-theme="dark"] .btn-text-danger {
+  background-color: transparent !important;
+  border: 1px solid #ef4444 !important;
+  color: #ef4444 !important;
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-theme="dark"] #btnClearSaved:hover,
+[data-theme="dark"] .btn-text-danger:hover {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+}
+
+/* 4. تعتيم جدول المقارنة وخلفيات الخلايا */
+[data-theme="dark"] .saved-table,
+[data-theme="dark"] .table-responsive {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+}
+
+[data-theme="dark"] .saved-table th {
+  background-color: #1e293b !important;
+  border-bottom: 1px solid #374151 !important;
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .saved-table td {
+  background-color: #111827 !important;
+  border-bottom: 1px solid #1f2937 !important;
+  color: #e2e8f0 !important;
+}
 /* التجاوب مع شاشات الجوال */
 @media (max-width: 640px) {
   .affiliate-cards-container {
