@@ -1177,7 +1177,7 @@ async function handleContactSubmit(event) {
   const formData = new FormData(form);
 
   // وضع المفتاح وبيانات التعريف
-  formData.append('access_key', 'ضع_المفتاح_الخاص_بك_هنا');
+  formData.append('access_key', '1dd3f213-7bd4-4ad8-a3cf-7b8d5c56d1fd');
   formData.append('from_name', 'LoyerLégal Paris Contact');
 
   // تخصيص عنوان الرسالة
