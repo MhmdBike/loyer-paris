@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Encadrement des Loyers Paris {{NUM}} ({{ZIP}}) : Simulateur & Calcul Trop-Perçu</title>
+  <meta name="description" content="Votre loyer dans le {{NUM}}e arrondissement de Paris dépasse-t-il le plafond légal ? Calculez le loyer de référence majoré ({{QUARTIERS}}) et générez votre mise en demeure loi ÉLAN.">
+  <meta name="keywords" content="encadrement des loyers paris {{NUM}}, loyer legal {{ZIP}}, depassement loyer {{NAME}}, calcul loyer paris {{NUM}}, loi elan paris {{NUM}}">
+  <link rel="canonical" href="https://loyerparis.app/paris-{{NUM}}.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://loyerparis.app/paris-{{NUM}}.html">
+  <meta property="og:title" content="Loyer abusif dans le {{NUM}}e arrondissement de Paris ? Testez gratuitement">
+  <meta property="og:description" content="Vérifiez le loyer légal au m² à Paris {{NUM}} (loi ÉLAN) et récupérez votre trop-perçu.">
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Simulateur Encadrement Loyers Paris {{NUM}}",
+    "url": "https://loyerparis.app/paris-{{NUM}}.html",
+    "applicationCategory": "RealEstateApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    }
+  }
+  </script>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="container nav-container">
+      <a href="/" class="brand-logo">
+        <span class="logo-icon">⚖️</span>
+        <span class="logo-text">Loyer<strong>Paris</strong></span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Accueil</a>
+        <a href="#simulateur" class="active">Simulateur {{NUM}}e</a>
+        <a href="#statistiques">Repères {{ZIP}}</a>
+        <a href="/guide/assurance-habitation-paris.html">Guide MRH</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <div class="badge-tag"><i class="fa-solid fa-location-dot"></i> Paris {{NUM}}e Arrondissement ({{ZIP}})</div>
+        <h1 class="hero-title">Encadrement des Loyers à Paris {{NUM}} : Votre loyer est-il légal ?</h1>
+        <p class="hero-subtitle">
+          Quartiers {{QUARTIERS}} : calculez en 10 secondes le loyer de référence majoré au m² imposé par la loi ÉLAN et récupérez le trop-perçu versé à votre bailleur.
+        </p>
+      </div>
+    </section>
+
+    <section id="simulateur" class="calculator-section">
+      <div class="container">
+        <div class="calc-card">
+          <div class="calc-header">
+            <h2><i class="fa-solid fa-calculator"></i> Simulateur officiel pour le {{NUM}}e arrondissement</h2>
+            <p>Renseignez les caractéristiques de votre logement pour vérifier la conformité du bail.</p>
+          </div>
+
+          <form id="rentForm" class="rent-form">
+            <div class="form-grid">
+              
+              <div class="form-group">
+                <label for="arrondissement"><i class="fa-solid fa-map-pin"></i> Arrondissement</label>
+                <select id="arrondissement" name="arrondissement" required>
+                  <option value="{{NUM}}" selected>Paris {{NUM}}e ({{NAME}} - {{ZIP}})</option>
+                  <option value="1">Paris 1er</option>
+                  <option value="2">Paris 2e</option>
+                  <option value="3">Paris 3e</option>
+                  <option value="4">Paris 4e</option>
+                  <option value="5">Paris 5e</option>
+                  <option value="6">Paris 6e</option>
+                  <option value="7">Paris 7e</option>
+                  <option value="8">Paris 8e</option>
+                  <option value="9">Paris 9e</option>
+                  <option value="10">Paris 10e</option>
+                  <option value="11">Paris 11e</option>
+                  <option value="12">Paris 12e</option>
+                  <option value="13">Paris 13e</option>
+                  <option value="14">Paris 14e</option>
+                  <option value="15">Paris 15e</option>
+                  <option value="16">Paris 16e</option>
+                  <option value="17">Paris 17e</option>
+                  <option value="18">Paris 18e</option>
+                  <option value="19">Paris 19e</option>
+                  <option value="20">Paris 20e</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="surface"><i class="fa-solid fa-ruler-combined"></i> Surface habitable (m²)</label>
+                <input type="number" id="surface" name="surface" placeholder="Ex: 22" min="9" max="250" step="0.5" required>
+              </div>
+
+              <div class="form-group">
+                <label for="pieces"><i class="fa-solid fa-door-open"></i> Nombre de pièces principales</label>
+                <select id="pieces" name="pieces" required>
+                  <option value="1">1 pièce (Studio)</option>
+                  <option value="2">2 pièces</option>
+                  <option value="3">3 pièces</option>
+                  <option value="4">4 pièces et plus</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="meuble"><i class="fa-solid fa-couch"></i> Type de location</label>
+                <select id="meuble" name="meuble" required>
+                  <option value="meuble">Meublé</option>
+                  <option value="non_meuble">Non meublé (Vide)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="epoque"><i class="fa-solid fa-calendar"></i> Époque de construction</label>
+                <select id="epoque" name="epoque" required>
+                  <option value="avant_1946">Avant 1946</option>
+                  <option value="1946_1970">1946 - 1970</option>
+                  <option value="1971_1990">1971 - 1990</option>
+                  <option value="apres_1990">Après 1990</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="currentRent"><i class="fa-solid fa-euro-sign"></i> Loyer mensuel hors charges (€)</label>
+                <input type="number" id="currentRent" name="currentRent" placeholder="Ex: 950" min="100" max="10000" required>
+              </div>
+
+            </div>
+
+            <button type="submit" class="btn-submit" id="btnCalculate">
+              <i class="fa-solid fa-bolt"></i> Calculer la conformité légale dans le {{NUM}}e
+            </button>
+          </form>
+
+          <div id="resultContainer" class="result-box hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="statistiques" class="guide-content-section">
+      <div class="container">
+        <h2>Comprendre l'encadrement des loyers dans le {{NUM}}e arrondissement ({{ZIP}})</h2>
+        <p>
+          Dans le quartier de {{NAME}} ({{QUARTIERS}}), la tension locative est particulièrement forte. La loi ÉLAN impose des plafonds stricts pour protéger les locataires contre les hausses abusives.
+        </p>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3><i class="fa-solid fa-triangle-exclamation"></i> Dépassements illégaux</h3>
+            <p>Une grande partie des annonces publiées sur les plateformes dépassent le loyer de référence majoré légal dans le {{NUM}}e arrondissement.</p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fa-solid fa-shield-halved"></i> Vos droits (Loi ÉLAN)</h3>
+            <p>Vous disposez de <strong>3 ans</strong> pour contester votre loyer et demander le remboursement rétroactif du trop-perçu versé à votre propriétaire.</p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fa-solid fa-file-contract"></i> Action amiable</h3>
+            <p>Générez gratuitement votre lettre de mise en demeure conforme à envoyer en recommandé pour faire baisser votre loyer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container footer-content">
+      <div class="footer-col">
+        <h4>LoyerParis</h4>
+        <p>Outil citoyen et gratuit de contrôle des loyers parisiens (Loi ÉLAN).</p>
+      </div>
+      <div class="footer-col">
+        <h4>Guides & Légal</h4>
+        <ul>
+          <li><a href="/guide/assurance-habitation-paris.html">Assurance habitation</a></li>
+          <li><a href="/guide/complement-de-loyer-abusif.html">Complément de loyer illégal</a></li>
+          <li><a href="/mentions-legales.html">Mentions légales</a></li>
+          <li><a href="/politique-confidentialite.html">Confidentialité</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
