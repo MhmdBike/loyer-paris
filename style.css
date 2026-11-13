@@ -2874,61 +2874,242 @@ button, input, select, textarea {
 .btn-del { background: none; border: none; color: #ef4444; cursor: pointer; }
 
 /* تعريف الألوان الافتراضية (الوضع الفاتح) */
-:root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-card: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --input-bg: #ffffff;
-}
+/* ==========================================================================
+   Dark Mode Master Engine - LoyerLégal Paris
+   ========================================================================== */
 
-/* ألوان الوضع الداكن */
+/* 1. قلب نظام الألوان والمتغيرات بالكامل في الوضع المظلم */
 [data-theme="dark"] {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-card: #1e293b;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --border-color: #334155;
-  --input-bg: #0f172a;
+  --color-white: #111827;
+  --color-slate-50: #0b0f19;
+  --color-slate-100: #1e293b;
+  --color-slate-200: #1f2937;
+  --color-slate-300: #374151;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #94a3b8;
+  --color-slate-600: #cbd5e1;
+  --color-slate-700: #e2e8f0;
+  --color-slate-800: #f8fafc;
+  --color-slate-900: #ffffff;
+  --color-slate-950: #ffffff;
+
+  --color-primary-light: rgba(37, 99, 235, 0.15);
+  --color-primary-border: #1d4ed8;
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 30px -4px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 18px 45px -24px rgba(0, 0, 0, 0.6);
 }
 
-/* تطبيق المتغيرات على خلفية الموقع ونصوصه */
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.25s ease, color 0.25s ease;
+/* 2. تعتيم الخلفيات الأساسية وإلغاء التدرجات البيضاء تماماً */
+[data-theme="dark"],
+[data-theme="dark"] html,
+[data-theme="dark"] body {
+  background-color: #0b0f19 !important;
+  background-image: none !important;
+  color: #f1f5f9 !important;
 }
 
-.main-header,
-.calc-card,
-.scanner-card,
-.info-card,
-.saved-table,
-.main-footer {
-  background-color: var(--bg-card) !important;
-  border-color: var(--border-color) !important;
-  color: var(--text-primary) !important;
+[data-theme="dark"] .hero-section {
+  background: #0b0f19 !important;
+  border-bottom: 1px solid #1f2937 !important;
 }
 
-input, select, textarea {
-  background-color: var(--input-bg) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-color) !important;
+[data-theme="dark"] .hero-section::before {
+  display: none !important;
 }
 
-/* تنسيق زر وقائمة المظهر */
+[data-theme="dark"] .calculator-section {
+  background: #0b0f19 !important;
+  border-top: 1px solid #1f2937 !important;
+  border-bottom: 1px solid #1f2937 !important;
+}
+
+[data-theme="dark"] .site-header {
+  background-color: rgba(11, 18, 32, 0.92) !important;
+  border-bottom: 1px solid #1f2937 !important;
+}
+
+/* 3. كروت الإحصائيات الأربعة تحت الهيدر */
+[data-theme="dark"] .stat-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+[data-theme="dark"] .stat-icon {
+  background-color: #1e293b !important;
+}
+[data-theme="dark"] .btn-outline {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+/* 4. شريط اختيار الدوائر وعناصر الخريطة */
+[data-theme="dark"] .map-chips-bar,
+[data-theme="dark"] .map-card,
+[data-theme="dark"] .map-info-panel {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .chip-btn {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+[data-theme="dark"] .chip-btn:hover,
+[data-theme="dark"] .chip-btn.active {
+  background: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .map-legend {
+  background: rgba(17, 24, 39, 0.95) !important;
+  border-color: #374151 !important;
+  color: #ffffff !important;
+}
+[data-theme="dark"] .legend-header {
+  color: #94a3b8 !important;
+}
+
+/* نافذة الخريطة التفاعلية */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #111827 !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+.map-popup-title {
+  color: #ffffff !important;
+}
+.map-popup-rates {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+.popup-rate-row span {
+  color: #cbd5e1 !important;
+}
+
+/* 5. نموذج الحاسبة وخياراتها (EXEMPLES TYPES) */
+[data-theme="dark"] .calc-card,
+[data-theme="dark"] .results-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .preset-buttons-wrap {
+  background: #0b0f19 !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .preset-btn {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+[data-theme="dark"] .preset-btn:hover {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .form-control {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .segmented-control {
+  background-color: #0b0f19 !important;
+  border-color: #1f2937 !important;
+}
+[data-theme="dark"] .segment-pill {
+  color: #94a3b8 !important;
+}
+[data-theme="dark"] .segment-option input:checked + .segment-pill {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+/* 6. بطاقات النتائج والمبالغ */
+[data-theme="dark"] .status-banner-danger {
+  background: rgba(220, 38, 38, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+}
+[data-theme="dark"] .status-headline-danger {
+  color: #fca5a5 !important;
+}
+
+[data-theme="dark"] .status-banner-success {
+  background: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+[data-theme="dark"] .status-headline-success {
+  color: #6ee7b7 !important;
+}
+
+[data-theme="dark"] .metric-box {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="dark"] .box-danger {
+  background-color: rgba(220, 38, 38, 0.1) !important;
+  border-color: rgba(239, 68, 68, 0.25) !important;
+}
+[data-theme="dark"] .box-warning {
+  background-color: rgba(217, 119, 6, 0.1) !important;
+  border-color: rgba(217, 119, 6, 0.25) !important;
+}
+[data-theme="dark"] .box-info {
+  background-color: rgba(37, 99, 235, 0.1) !important;
+  border-color: rgba(37, 99, 235, 0.25) !important;
+}
+[data-theme="dark"] .box-accent {
+  background-color: rgba(124, 58, 237, 0.1) !important;
+  border-color: rgba(124, 58, 237, 0.25) !important;
+}
+
+[data-theme="dark"] .comparison-bar-section {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* 7. بطاقات التأمين والخدمات (Fintech Cards) */
+[data-theme="dark"] .fintech-card,
+[data-theme="dark"] .scanner-card,
+[data-theme="dark"] .legal-guide-section,
+[data-theme="dark"] .guide-article,
+[data-theme="dark"] .faq-item {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .fintech-icon-title h3,
+[data-theme="dark"] .article-body h3,
+[data-theme="dark"] .faq-question {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .fintech-desc,
+[data-theme="dark"] .fintech-features li,
+[data-theme="dark"] .article-body p,
+[data-theme="dark"] .faq-answer {
+  color: #94a3b8 !important;
+}
+
+/* 8. قائمة وزر تبديل الوضع (Theme Switcher) */
 .theme-switch-wrapper {
   position: relative;
   display: inline-block;
 }
 
 .theme-toggle-btn {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background: var(--color-slate-100);
+  color: var(--color-slate-800);
+  border: 1px solid var(--color-slate-200);
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -2947,10 +3128,10 @@ input, select, textarea {
   position: absolute;
   top: 48px;
   right: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: #111827;
+  border: 1px solid #1f2937;
   border-radius: 10px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
   padding: 6px;
   display: flex;
   flex-direction: column;
@@ -2971,7 +3152,7 @@ input, select, textarea {
   border: none;
   padding: 8px 12px;
   border-radius: 6px;
-  color: var(--text-primary);
+  color: #f1f5f9;
   font-size: 0.9rem;
   cursor: pointer;
   text-align: left;
@@ -2980,184 +3161,16 @@ input, select, textarea {
 }
 
 .theme-option:hover {
-  background: var(--bg-secondary);
+  background: #1e293b;
 }
 
 .theme-option.active {
-  background: #eff6ff;
-  color: #2563eb;
+  background: #1e3a8a;
+  color: #93c5fd;
   font-weight: 600;
 }
 
-[data-theme="dark"] .theme-option.active {
-  background: #1e3a8a;
-  color: #93c5fd;
-}
-/* ========================================================
-   الوضع المظلم الشامل والمصحح لكافة عناصر الموقع
-   ======================================================== */
-
-[data-theme="dark"],
-[data-theme="dark"] body,
-[data-theme="dark"] html {
-  background-color: #0b0f19 !important;
-  color: #f1f5f9 !important;
-}
-
-/* 1. تعتيم الهيدر والفوتر والصفحة العامة */
-[data-theme="dark"] .main-header,
-[data-theme="dark"] header,
-[data-theme="dark"] .hero-section,
-[data-theme="dark"] section,
-[data-theme="dark"] main,
-[data-theme="dark"] .main-footer,
-[data-theme="dark"] footer,
-[data-theme="dark"] .theme-dropdown {
-  background-color: #0b0f19 !important;
-  border-color: #1f2937 !important;
-  color: #f1f5f9 !important;
-}
-
-/* 2. كروت الإحصائيات الأربعة تحت الهيدر (180€، 3ans، 5000€، 100%) */
-[data-theme="dark"] div[class*="stat"],
-[data-theme="dark"] .stat-card,
-[data-theme="dark"] .hero-stats > div,
-[data-theme="dark"] .stats-grid > div,
-[data-theme="dark"] .kpi-card {
-  background-color: #111827 !important;
-  border: 1px solid #1f2937 !important;
-  box-shadow: none !important;
-}
-[data-theme="dark"] div[class*="stat"] h3,
-[data-theme="dark"] div[class*="stat"] .stat-value,
-[data-theme="dark"] div[class*="stat"] strong {
-  color: #ffffff !important;
-}
-[data-theme="dark"] div[class*="stat"] p,
-[data-theme="dark"] div[class*="stat"] span {
-  color: #94a3b8 !important;
-}
-[data-theme="dark"] .btn-secondary,
-[data-theme="dark"] a[class*="secondary"],
-[data-theme="dark"] a[href*="carte"] {
-  background-color: #1e293b !important;
-  color: #ffffff !important;
-  border: 1px solid #334155 !important;
-}
-
-/* 3. بطاقات عروض التأمين الثلاث (Affiliate Cards) */
-[data-theme="dark"] .affiliate-card,
-[data-theme="dark"] div[class*="affiliate"],
-[data-theme="dark"] .card-deck > div,
-[data-theme="dark"] .affiliate-grid > div {
-  background-color: #111827 !important;
-  border: 1px solid #1f2937 !important;
-  box-shadow: none !important;
-}
-[data-theme="dark"] .affiliate-card p,
-[data-theme="dark"] .affiliate-card li,
-[data-theme="dark"] .affiliate-card span {
-  color: #94a3b8 !important;
-}
-
-/* 4. بطاقات الحاسبة، أمثلة الشقق، وأزرار الاختيار */
-[data-theme="dark"] .calc-card,
-[data-theme="dark"] .scanner-card,
-[data-theme="dark"] .info-card,
-[data-theme="dark"] div[class*="exemple"],
-[data-theme="dark"] .examples-box {
-  background-color: #111827 !important;
-  border: 1px solid #1f2937 !important;
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .btn-toggle,
-[data-theme="dark"] .radio-group label,
-[data-theme="dark"] button[class*="choice"],
-[data-theme="dark"] .segmented-control button,
-[data-theme="dark"] div[class*="type-btn"] {
-  background-color: #1e293b !important;
-  border: 1px solid #334155 !important;
-  color: #94a3b8 !important;
-}
-
-[data-theme="dark"] .btn-toggle.active,
-[data-theme="dark"] .radio-group input:checked + label,
-[data-theme="dark"] button[class*="choice"].active {
-  background-color: #2563eb !important;
-  color: #ffffff !important;
-  border-color: #2563eb !important;
-}
-
-/* 5. بطاقات نتائج الحساب (Surcoût, Préjudice, Plafond, Remboursement) */
-[data-theme="dark"] div[class*="result-card"],
-[data-theme="dark"] div[class*="kpi-box"],
-[data-theme="dark"] .result-box div[style*="background"],
-[data-theme="dark"] div[class*="comparatif"] {
-  background-color: #1e293b !important;
-  border: 1px solid #334155 !important;
-}
-
-[data-theme="dark"] div[class*="result-card"] span,
-[data-theme="dark"] div[class*="kpi-box"] span,
-[data-theme="dark"] .result-box p {
-  color: #94a3b8 !important;
-}
-
-/* شريط عنوان التجاوز الأحمر في أعلى النتيجة */
-[data-theme="dark"] div[class*="result-header"],
-[data-theme="dark"] .result-banner {
-  background-color: rgba(220, 38, 38, 0.15) !important;
-  border: 1px solid rgba(239, 68, 68, 0.3) !important;
-}
-[data-theme="dark"] div[class*="result-header"] h3,
-[data-theme="dark"] .result-banner h3 {
-  color: #f87171 !important;
-}
-
-/* 6. صندوق شرح القانون وبطاقات الأسئلة الشائعة (FAQ) */
-[data-theme="dark"] .guide-content-section > div,
-[data-theme="dark"] div[class*="guide-card"],
-[data-theme="dark"] .faq-item,
-[data-theme="dark"] details,
-[data-theme="dark"] div[class*="faq-card"],
-[data-theme="dark"] div[class*="accordion"] {
-  background-color: #111827 !important;
-  border: 1px solid #1f2937 !important;
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .faq-item h3,
-[data-theme="dark"] summary,
-[data-theme="dark"] .faq-question {
-  color: #ffffff !important;
-}
-
-[data-theme="dark"] .faq-item p,
-[data-theme="dark"] .faq-answer {
-  color: #94a3b8 !important;
-}
-
-/* 7. عناصر الخريطة (الدوائر ومربع المفتاح السفلي) */
-[data-theme="dark"] .arrond-pill,
-[data-theme="dark"] button[data-arrond],
-[data-theme="dark"] .map-legend,
-[data-theme="dark"] div[class*="legend"] {
-  background-color: #111827 !important;
-  border-color: #1f2937 !important;
-  color: #f1f5f9 !important;
-}
-
-/* 8. حقول الإدخال */
-[data-theme="dark"] input,
-[data-theme="dark"] select,
-[data-theme="dark"] textarea {
-  background-color: #1e293b !important;
-  border: 1.5px solid #334155 !important;
-  color: #ffffff !important;
-}
-
-/* 9. ورقة الخطاب الرسمية A4 (تظل بيضاء تماماً بنص أسود رسمي) */
+/* 9. استثناء ورقة الخطاب الرسمية A4 للطباعة */
 #letterPaper,
 #letterPaper *,
 .letter-paper,
@@ -3165,9 +3178,10 @@ input, select, textarea {
 #letterContent,
 #letterContent * {
   background-color: #ffffff !important;
-  color: #0f172a !important;
+  color: #000000 !important;
   text-shadow: none !important;
 }
+
 #letterPaper strong,
 .letter-paper strong {
   color: #000000 !important;

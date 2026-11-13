@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCalculator();
   initLetterGenerator();
   initBannerModal();
+  initContactModal();
   initModals();
 
   // Run initial calculation with default values for instant preview
