@@ -3093,55 +3093,117 @@ input, select, textarea {
   color: #f1f5f9 !important;
 }
 /* ========================================================
-   إصلاح تفاصيل التنبيهات والأزرار في الوضع المظلم
+   إصلاح الوضع المظلم الشامل وتثبيت وضوح النصوص والخطاب
    ======================================================== */
 
-/* 1. إصلاح صندوق التنبيه العلوي وقراءة الرقم */
-[data-theme="dark"] #retro-recovery-banner,
-[data-theme="dark"] div[class*="banner"],
-[data-theme="dark"] .result-alert-box {
-  background: rgba(220, 38, 38, 0.12) !important;
-  border: 1px solid rgba(239, 68, 68, 0.3) !important;
-  color: #fca5a5 !important;
+[data-theme="dark"],
+[data-theme="dark"] body,
+[data-theme="dark"] html {
+  background-color: #0b0f19 !important;
+  color: #f1f5f9 !important;
 }
 
+/* تعتيم كافة الأقسام والبطاقات والكروت التوضيحية */
+[data-theme="dark"] .main-header,
+[data-theme="dark"] header,
+[data-theme="dark"] .hero-section,
+[data-theme="dark"] section,
+[data-theme="dark"] main,
+[data-theme="dark"] .calc-card,
+[data-theme="dark"] .scanner-card,
+[data-theme="dark"] .info-card,
+[data-theme="dark"] .guide-content-section,
+[data-theme="dark"] .guide-card,
+[data-theme="dark"] .main-footer,
+[data-theme="dark"] footer,
+[data-theme="dark"] .saved-table,
+[data-theme="dark"] .theme-dropdown,
+[data-theme="dark"] div[style*="background: #ffffff"],
+[data-theme="dark"] div[style*="background: white"],
+[data-theme="dark"] div[style*="background:#ffffff"] {
+  background-color: #111827 !important;
+  background-image: none !important;
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+/* تلوين العناوين والنصوص داخل الموقع */
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4 {
+  color: #ffffff !important;
+}
+[data-theme="dark"] p, [data-theme="dark"] label, [data-theme="dark"] span {
+  color: #94a3b8;
+}
+[data-theme="dark"] strong {
+  color: #60a5fa !important; /* إبراز الكلمات الهامة بالأزرق السماوي */
+}
+
+/* 1. استثناء ورقة الخطاب A4 (يجب أن تظل بيضاء بالكامل بخط أسود مقروء) */
+#letterPaper,
+#letterPaper *,
+.letter-paper,
+.letter-paper *,
+#letterContent,
+#letterContent * {
+  background-color: #ffffff !important;
+  color: #0f172a !important; /* أسود صريح لكافة الأرقام والمبالغ */
+  text-shadow: none !important;
+}
+#letterPaper strong,
+.letter-paper strong {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* 2. إصلاح صندوق التنبيه العلوي (3 276 €) */
+[data-theme="dark"] #retro-recovery-banner,
+[data-theme="dark"] .result-alert-box {
+  background: rgba(220, 38, 38, 0.15) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  color: #fca5a5 !important;
+}
 [data-theme="dark"] #retro-recovery-banner strong,
 [data-theme="dark"] .result-alert-box strong {
   color: #ffffff !important;
-  text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
-/* 2. إصلاح بطاقات عروض التأمين (Affiliate Cards) */
-[data-theme="dark"] .affiliate-grid-section,
-[data-theme="dark"] .affiliate-card,
-[data-theme="dark"] div[class*="card"] {
-  background-color: #111827 !important;
-  border-color: #1f2937 !important;
+/* 3. إصلاح بطاقات الأمثلة واختيارات الأزرار (الصورة 1) */
+[data-theme="dark"] .calc-card div[style*="background"],
+[data-theme="dark"] .examples-box,
+[data-theme="dark"] div[class*="exemples"],
+[data-theme="dark"] .btn-toggle,
+[data-theme="dark"] .radio-group label,
+[data-theme="dark"] button[class*="choice"] {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f8fafc !important;
 }
 
-[data-theme="dark"] .affiliate-card p,
-[data-theme="dark"] .affiliate-card li {
-  color: #94a3b8 !important;
+/* 4. إصلاح نافذة الخريطة المنبثقة (Leaflet Popup) لتكون داكنة ونصوصها بيضاء */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+.leaflet-popup-content strong,
+.leaflet-popup-content span,
+.leaflet-popup-content p {
+  color: #ffffff !important;
 }
 
-/* 3. تنسيق زر "Effacer la liste" ليكون شفافاً وأنيقاً */
-.btn-text-danger,
-#btnClearSaved {
+/* 5. إصلاح الحقول والأزرار */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: #1f2937 !important;
+  border: 1.5px solid #374151 !important;
+  color: #ffffff !important;
+}
+.btn-text-danger, #btnClearSaved {
   background: transparent !important;
   border: 1px solid #ef4444 !important;
   color: #ef4444 !important;
-  padding: 5px 12px !important;
-  border-radius: 6px !important;
-  font-size: 0.85rem !important;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-}
-
-.btn-text-danger:hover,
-#btnClearSaved:hover {
-  background: rgba(239, 68, 68, 0.15) !important;
-  color: #f87171 !important;
 }
 /* التجاوب مع شاشات الجوال */
 @media (max-width: 640px) {
