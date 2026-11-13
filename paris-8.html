@@ -1,210 +1,205 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encadrement des Loyers Paris {{ARROND}} (75008) - Plafond Légal {{YEAR}}</title>
+  <meta name="description" content="Simulateur officiel de loyer à Paris {{ARROND}}e (75008). Calculez gratuitement si votre loyer dépasse le plafond légal (Loi ÉLAN) et générez votre lettre.">
   
-  <title>Encadrement des Loyers Paris 8 (75008) : Simulateur & Calcul Trop-Perçu</title>
-  <meta name="description" content="Votre loyer dans le 8e arrondissement de Paris dépasse-t-il le plafond légal ? Calculez le loyer de référence majoré (Champs-Élysées, Madeleine, Monceau) et générez votre mise en demeure loi ÉLAN.">
-  <meta name="keywords" content="encadrement des loyers paris 8, loyer legal 75008, depassement loyer Élysée, calcul loyer paris 8, loi elan paris 8">
-  <link rel="canonical" href="https://loyerparis.app/paris-8.html">
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://loyerparis.app/paris-8.html">
-  <meta property="og:title" content="Loyer abusif dans le 8e arrondissement de Paris ? Testez gratuitement">
-  <meta property="og:description" content="Vérifiez le loyer légal au m² à Paris 8 (loi ÉLAN) et récupérez votre trop-perçu.">
-
-  <!-- Vercel Web Analytics -->
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  
   <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    (function () {
+      const savedTheme = localStorage.getItem('theme_preference') || 'system';
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (savedTheme === 'system' && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-
-  <!-- Schema.org JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Simulateur Encadrement Loyers Paris 8",
-    "url": "https://loyerparis.app/paris-8.html",
-    "applicationCategory": "RealEstateApplication",
-    "operatingSystem": "All",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "EUR"
-    }
-  }
-  </script>
-
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header class="main-header">
+  <!-- الهيدر الموحد مع زر الوضع الليلي -->
+  <header class="site-header">
     <div class="container nav-container">
       <a href="/" class="brand-logo">
-        <span class="logo-icon">⚖️</span>
-        <span class="logo-text">Loyer<strong>Paris</strong></span>
+        <div class="logo-icon-wrap"><i class="fa-solid fa-scale-balanced logo-icon"></i></div>
+        <div>
+          <span class="logo-title">Loyer<span class="logo-accent">Légal</span></span>
+          <span class="logo-subtitle">Paris {{ARROND}}e</span>
+        </div>
       </a>
-      <nav class="nav-links">
-        <a href="/">Accueil</a>
-        <a href="#simulateur" class="active">Simulateur 8e</a>
-        <a href="#statistiques">Repères 75008</a>
-        <a href="/guide/assurance-habitation-paris.html">Guide MRH</a>
+      <nav class="main-nav">
+        <a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Accueil</a>
+        <a href="/#scanner" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles"></i> Scanner Annonce</a>
+        <a href="/#simulateur" class="nav-link"><i class="fa-solid fa-calculator"></i> Simulateur</a>
+        <a href="/#mes-annonces" class="nav-link"><i class="fa-solid fa-bookmark"></i> Mes Recherches</a>
       </nav>
+      <div class="theme-switch-wrapper">
+        <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Thème">
+          <i class="fa-solid fa-circle-half-stroke" id="themeIcon"></i>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero-section">
-      <div class="container">
-        <div class="badge-tag"><i class="fa-solid fa-location-dot"></i> Paris 8e Arrondissement (75008)</div>
-        <h1 class="hero-title">Encadrement des Loyers à Paris 8 : Votre loyer est-il légal ?</h1>
-        <p class="hero-subtitle">
-          Quartiers Champs-Élysées, Madeleine, Monceau : calculez en 10 secondes le loyer de référence majoré au m² imposé par la loi ÉLAN et récupérez le trop-perçu versé à votre bailleur.
-        </p>
+  <!-- قسم العنوان والـ Hero الخاص بالدائرة -->
+  <section class="hero-section" style="padding: 3.5rem 0 2.5rem;">
+    <div class="container hero-container">
+      <div class="hero-badge">
+        <span class="badge-pulse"></span> Données Officielles Préfecture {{YEAR}}
       </div>
-    </section>
+      <h1 class="hero-title" style="font-size: 2.4rem;">
+        Encadrement des Loyers à <span>Paris {{ARROND}}e</span> (75008)
+      </h1>
+      <p class="hero-description" style="font-size: 1.05rem; margin-bottom: 1.5rem;">
+        Quartiers : <strong>Champs-Élysées, Madeleine, Monceau</strong>. Vérifiez en 30 secondes si votre bail respecte le plafond légal de référence majoré fixé par l'arrêté préfectoral.
+      </p>
+    </div>
+  </section>
 
-    <section id="simulateur" class="calculator-section">
-      <div class="container">
+  <!-- حاسبة الدائرة المصممة بهوية الـ Fintech -->
+  <section class="section calculator-section">
+    <div class="container">
+      <div style="max-width: 680px; margin: 0 auto;">
         <div class="calc-card">
-          <div class="calc-header">
-            <h2><i class="fa-solid fa-calculator"></i> Simulateur officiel pour le 8e arrondissement</h2>
-            <p>Renseignez les caractéristiques de votre logement pour vérifier la conformité du bail.</p>
+          <div class="calc-card-header">
+            <div class="calc-header-icon"><i class="fa-solid fa-building-circle-check"></i></div>
+            <div>
+              <h2 class="calc-title">Simulateur Paris {{ARROND}}e</h2>
+              <p class="calc-sub">Calcul immédiat selon l'arrêté officiel en vigueur</p>
+            </div>
           </div>
 
-          <form id="rentForm" class="rent-form">
-            <div class="form-grid">
-              
-              <div class="form-group">
-                <label for="arrondissement"><i class="fa-solid fa-map-pin"></i> Arrondissement</label>
-                <select id="arrondissement" name="arrondissement" required>
-                  <option value="8" selected>Paris 8e (Élysée - 75008)</option>
-                  <option value="1">Paris 1er</option>
-                  <option value="2">Paris 2e</option>
-                  <option value="3">Paris 3e</option>
-                  <option value="4">Paris 4e</option>
-                  <option value="5">Paris 5e</option>
-                  <option value="6">Paris 6e</option>
-                  <option value="7">Paris 7e</option>
-                  <option value="8">Paris 8e</option>
-                  <option value="9">Paris 9e</option>
-                  <option value="10">Paris 10e</option>
-                  <option value="11">Paris 11e</option>
-                  <option value="12">Paris 12e</option>
-                  <option value="13">Paris 13e</option>
-                  <option value="14">Paris 14e</option>
-                  <option value="15">Paris 15e</option>
-                  <option value="16">Paris 16e</option>
-                  <option value="17">Paris 17e</option>
-                  <option value="18">Paris 18e</option>
-                  <option value="19">Paris 19e</option>
-                  <option value="20">Paris 20e</option>
-                </select>
-              </div>
+          <form id="arrondForm" action="/#simulateur" method="GET">
+            <input type="hidden" name="arrond" value="{{ARROND}}">
 
-              <div class="form-group">
-                <label for="surface"><i class="fa-solid fa-ruler-combined"></i> Surface habitable (m²)</label>
-                <input type="number" id="surface" name="surface" placeholder="Ex: 22" min="9" max="250" step="0.5" required>
-              </div>
-
-              <div class="form-group">
-                <label for="pieces"><i class="fa-solid fa-door-open"></i> Nombre de pièces principales</label>
-                <select id="pieces" name="pieces" required>
-                  <option value="1">1 pièce (Studio)</option>
-                  <option value="2">2 pièces</option>
-                  <option value="3">3 pièces</option>
-                  <option value="4">4 pièces et plus</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="meuble"><i class="fa-solid fa-couch"></i> Type de location</label>
-                <select id="meuble" name="meuble" required>
-                  <option value="meuble">Meublé</option>
-                  <option value="non_meuble">Non meublé (Vide)</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="epoque"><i class="fa-solid fa-calendar"></i> Époque de construction</label>
-                <select id="epoque" name="epoque" required>
-                  <option value="avant_1946">Avant 1946</option>
-                  <option value="1946_1970">1946 - 1970</option>
-                  <option value="1971_1990">1971 - 1990</option>
-                  <option value="apres_1990">Après 1990</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="currentRent"><i class="fa-solid fa-euro-sign"></i> Loyer mensuel hors charges (€)</label>
-                <input type="number" id="currentRent" name="currentRent" placeholder="Ex: 950" min="100" max="10000" required>
-              </div>
-
+            <div class="form-group">
+              <label class="form-label"><i class="fa-solid fa-location-dot"></i> Arrondissement sélectionné</label>
+              <input type="text" class="form-control" value="Paris {{ARROND}}e (75008)" disabled style="font-weight: 700;">
             </div>
 
-            <button type="submit" class="btn-submit" id="btnCalculate">
-              <i class="fa-solid fa-bolt"></i> Calculer la conformité légale dans le 8e
+            <div class="form-row">
+              <div class="form-group col-half">
+                <label class="form-label" for="localSurface"><i class="fa-solid fa-ruler-combined"></i> Surface habitable <span class="required">*</span></label>
+                <div class="input-with-suffix">
+                  <input type="number" id="localSurface" name="surface" class="form-control" placeholder="Ex: 25" required min="9">
+                  <span class="input-suffix">m²</span>
+                </div>
+              </div>
+
+              <div class="form-group col-half">
+                <label class="form-label" for="localRent"><i class="fa-solid fa-euro-sign"></i> Loyer hors charges <span class="required">*</span></label>
+                <div class="input-with-suffix">
+                  <input type="number" id="localRent" name="rent" class="form-control" placeholder="Ex: 850" required>
+                  <span class="input-suffix">€ / mois</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label"><i class="fa-solid fa-couch"></i> Type de location</label>
+              <div class="segmented-control">
+                <label class="segment-option">
+                  <input type="radio" name="meuble" value="non_meuble" checked>
+                  <span class="segment-pill"><i class="fa-solid fa-house"></i> Non meublé (Nu)</span>
+                </label>
+                <label class="segment-option">
+                  <input type="radio" name="meuble" value="meuble">
+                  <span class="segment-pill"><i class="fa-solid fa-couch"></i> Meublé (+11%)</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-calc-submit" style="margin-top: 1.5rem;">
+              <i class="fa-solid fa-bolt"></i> Calculer la conformité légale
             </button>
           </form>
-
-          <div id="resultContainer" class="result-box hidden"></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="statistiques" class="guide-content-section">
-      <div class="container">
-        <h2>Comprendre l'encadrement des loyers dans le 8e arrondissement (75008)</h2>
-        <p>
-          Dans le quartier de Élysée (Champs-Élysées, Madeleine, Monceau), la tension locative est particulièrement forte. La loi ÉLAN impose des plafonds stricts pour protéger les locataires contre les hausses abusives.
+  <!-- محتوى السيو المتكامل الخاص بالدائرة -->
+  <section class="section seo-guide-section">
+    <div class="container" style="max-width: 860px;">
+      <div class="guide-article" style="display: block;">
+        <div class="article-body">
+          <h3>Comprendre l'encadrement des loyers à Paris {{ARROND}}e (75008)</h3>
+          <p>
+            Dans les quartiers de <strong>Champs-Élysées, Madeleine, Monceau</strong>, la tension locative est forte et pousse de nombreux bailleurs à fixer des loyers illégaux excédant le plafond légal de référence majoré.
+          </p>
+          
+          <h4 style="margin: 1.5rem 0 0.5rem; color: var(--color-slate-900);">Vos droits fondamentaux :</h4>
+          <ul class="guide-steps">
+            <li><strong>Plafond indépassable :</strong> Aucun bailleur ne peut exiger un montant au m² supérieur au plafond officiel sans justification exceptionnelle.</li>
+            <li><strong>Remboursement rétroactif sur 3 ans :</strong> Vous pouvez réclamer chaque euro versé en trop depuis le premier jour de votre bail.</li>
+            <li><strong>Procédure gratuite :</strong> La contestation commence par un courrier recommandé (mise en demeure) puis une saisine gratuite de la CDC de Paris.</li>
+          </ul>
+
+          <div class="guide-callout" style="margin-top: 2rem;">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <strong>Obligation légale pour votre dossier :</strong> 
+              Pour faire valoir vos droits ou louer à Paris {{ARROND}}e, n'oubliez pas que l'assurance habitation est obligatoire dès la remise des clés.
+              <a href="/guide/assurance-habitation-paris.html" style="font-weight: 700; text-decoration: underline; display: block; margin-top: 0.35rem;">
+                Comparer les contrats dès 4 €/mois &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- الفوتر الموحد مع رابط البريد المهني الجديد -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-col brand-col">
+        <span class="logo-title" style="color:#fff;">Loyer<span class="logo-accent">Légal</span></span>
+        <p class="footer-desc">Plateforme citoyenne indépendante pour le respect du plafonnement des loyers à Paris (Loi ÉLAN).</p>
+        <p style="margin-top: 0.8rem;">
+          <a href="mailto:contact@loyerparis.app" style="color: #94a3b8; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-envelope"></i> contact@loyerparis.app
+          </a>
         </p>
-
-        <div class="info-grid">
-          <div class="info-card">
-            <h3><i class="fa-solid fa-triangle-exclamation"></i> Dépassements illégaux</h3>
-            <p>Une grande partie des annonces publiées sur les plateformes dépassent le loyer de référence majoré légal dans le 8e arrondissement.</p>
-          </div>
-          <div class="info-card">
-            <h3><i class="fa-solid fa-shield-halved"></i> Vos droits (Loi ÉLAN)</h3>
-            <p>Vous disposez de <strong>3 ans</strong> pour contester votre loyer et demander le remboursement rétroactif du trop-perçu versé à votre propriétaire.</p>
-          </div>
-          <div class="info-card">
-            <h3><i class="fa-solid fa-file-contract"></i> Action amiable</h3>
-            <p>Générez gratuitement votre lettre de mise en demeure conforme à envoyer en recommandé pour faire baisser votre loyer.</p>
-          </div>
-        </div>
       </div>
-    </section>
-  </main>
 
-  <footer class="main-footer">
-    <div class="container footer-content">
       <div class="footer-col">
-        <h4>LoyerParis</h4>
-        <p>Outil citoyen et gratuit de contrôle des loyers parisiens (Loi ÉLAN).</p>
-      </div>
-      <div class="footer-col">
-        <h4>Guides & Légal</h4>
-        <ul>
-          <li><a href="/guide/assurance-habitation-paris.html">Assurance habitation</a></li>
-          <li><a href="/guide/complement-de-loyer-abusif.html">Complément de loyer illégal</a></li>
-          <li><a href="/mentions-legales.html">Mentions légales</a></li>
-          <li><a href="/politique-confidentialite.html">Confidentialité</a></li>
+        <h4 class="footer-col-title">Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="/"><i class="fa-solid fa-angle-right"></i> Accueil</a></li>
+          <li><a href="/#scanner"><i class="fa-solid fa-angle-right"></i> Analyseur d'annonces</a></li>
+          <li><a href="/#simulateur"><i class="fa-solid fa-angle-right"></i> Simulateur officiel</a></li>
+          <li><a href="/#carte"><i class="fa-solid fa-angle-right"></i> Carte des 20 arrdt</a></li>
         </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Guides & Légal</h4>
+        <ul class="footer-links">
+          <li><a href="/guide/assurance-habitation-paris.html"><i class="fa-solid fa-angle-right"></i> Assurance habitation</a></li>
+          <li><a href="/guide/complement-de-loyer-abusif.html"><i class="fa-solid fa-angle-right"></i> Complément abusif</a></li>
+          <li><a href="/mentions-legales.html"><i class="fa-solid fa-angle-right"></i> Mentions légales</a></li>
+          <li><a href="/politique-confidentialite.html"><i class="fa-solid fa-angle-right"></i> Confidentialité</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; {{YEAR}} LoyerLégal Paris. Conforme Arrêté Préfectoral & Loi ÉLAN.</p>
+        <div class="footer-tags">
+          <span class="tag-badge">Paris {{ARROND}}e</span>
+          <span class="tag-badge">75008</span>
+        </div>
       </div>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="script.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>
