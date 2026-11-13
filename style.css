@@ -3092,6 +3092,57 @@ input, select, textarea {
   border-color: #334155 !important;
   color: #f1f5f9 !important;
 }
+/* ========================================================
+   إصلاح تفاصيل التنبيهات والأزرار في الوضع المظلم
+   ======================================================== */
+
+/* 1. إصلاح صندوق التنبيه العلوي وقراءة الرقم */
+[data-theme="dark"] #retro-recovery-banner,
+[data-theme="dark"] div[class*="banner"],
+[data-theme="dark"] .result-alert-box {
+  background: rgba(220, 38, 38, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #fca5a5 !important;
+}
+
+[data-theme="dark"] #retro-recovery-banner strong,
+[data-theme="dark"] .result-alert-box strong {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+/* 2. إصلاح بطاقات عروض التأمين (Affiliate Cards) */
+[data-theme="dark"] .affiliate-grid-section,
+[data-theme="dark"] .affiliate-card,
+[data-theme="dark"] div[class*="card"] {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .affiliate-card p,
+[data-theme="dark"] .affiliate-card li {
+  color: #94a3b8 !important;
+}
+
+/* 3. تنسيق زر "Effacer la liste" ليكون شفافاً وأنيقاً */
+.btn-text-danger,
+#btnClearSaved {
+  background: transparent !important;
+  border: 1px solid #ef4444 !important;
+  color: #ef4444 !important;
+  padding: 5px 12px !important;
+  border-radius: 6px !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-text-danger:hover,
+#btnClearSaved:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+}
 /* التجاوب مع شاشات الجوال */
 @media (max-width: 640px) {
   .affiliate-cards-container {
