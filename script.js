@@ -1168,14 +1168,21 @@ window.closeContactModal = function() {
 // 3. إرسال الرسالة إلى بريدك عبر Web3Forms
 async function handleContactSubmit(event) {
   event.preventDefault();
-  
+
+  const form = event.target;
   const btn = document.getElementById('btnSubmitContact');
-  const form = document.getElementById('contactForm');
   const successState = document.getElementById('contactSuccessState');
 
-  const emailVal = document.getElementById('contactEmail').value;
-  const subjectVal = document.getElementById('contactSubject').value;
-  const messageVal = document.getElementById('contactMessage').value;
+  // سحب البيانات مباشرة من النموذج الفعلي دون أي تضارب
+  const formData = new FormData(form);
+
+  // وضع المفتاح وبيانات التعريف
+  formData.append('access_key', 'ضع_المفتاح_الخاص_بك_هنا');
+  formData.append('from_name', 'LoyerLégal Paris Contact');
+
+  // تخصيص عنوان الرسالة
+  const subjectVal = formData.get('subject') || 'Contact';
+  formData.set('subject', `[LoyerParis] ${subjectVal}`);
 
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi en cours...';
@@ -1183,30 +1190,19 @@ async function handleContactSubmit(event) {
   try {
     const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json', 
-        'Accept': 'application/json' 
-      },
-      body: JSON.stringify({
-        // ضع المفتاح الذي وصلك من Web3Forms هنا بين علامتي التنصيص
-        access_key: '1dd3f213-7bd4-4ad8-a3cf-7b8d5c56d1fd',
-        from_name: 'LoyerLégal Paris Contact',
-        email: emailVal,
-        subject: `[LoyerParis] ${subjectVal}`,
-        message: messageVal
-      })
+      body: formData // إرسال مباشر متوافق 100% مع Web3Forms
     });
 
     const result = await response.json();
 
     if (result.success) {
       form.classList.add('hidden');
-      successState.classList.remove('hidden');
+      if (successState) successState.classList.remove('hidden');
     } else {
-      alert("Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous écrire à contact@loyerparis.app");
+      alert("Une erreur est survenue : " + (result.message || "Veuillez réessayer."));
     }
   } catch (error) {
-    alert("Impossible de joindre le serveur. Vous pouvez nous écrire directement à contact@loyerparis.app");
+    alert("Impossible de joindre le serveur. Écrivez-nous à contact@loyerparis.app");
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Envoyer le message';
