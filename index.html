@@ -1136,9 +1136,7 @@
           <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
             <li><a href="/mentions-legales.html" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Mentions Légales</a></li>
             <li><a href="/politique-confidentialite.html" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Politique de Confidentialité</a></li>
-            <li><a href="mailto:contact@loyerparis.app" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">
-              <i class="fa-solid fa-envelope"></i> contact@loyerparis.app
-            </a></li>
+            <li><button type="button" class="footer-contact-trigger" onclick="openContactModal()"><i class="fa-solid fa-envelope"></i> contact@loyerparis.app</button></li>
           </ul>
         </div>
       </div>
@@ -1215,5 +1213,71 @@
 
   <!-- Main Application Script -->
   <script src="script.js"></script>
+  <!-- Modal de Contact Fintech -->
+  <dialog id="contactModal" class="contact-modal">
+    <div class="contact-modal-backdrop" onclick="closeContactModal()"></div>
+    <div class="contact-modal-card">
+      <div class="modal-card-header">
+        <div class="modal-header-text">
+          <span class="modal-badge"><i class="fa-solid fa-headset"></i> Support & Contact</span>
+          <h3 class="modal-title">Contactez l'équipe LoyerLégal</h3>
+          <p class="modal-subtitle">Une question sur votre calcul ou un partenariat ? Réponse sous 24h.</p>
+        </div>
+        <button type="button" class="btn-close-modal" onclick="closeContactModal()" aria-label="Fermer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- نموذج المراسلة المباشر -->
+      <form id="contactForm" class="modal-form" onsubmit="handleContactSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="contactEmail">Votre adresse e-mail <span class="required">*</span></label>
+          <input type="email" id="contactEmail" name="email" class="form-control" placeholder="exemple@domaine.fr" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contactSubject">Objet de votre demande <span class="required">*</span></label>
+          <div class="select-wrapper">
+            <select id="contactSubject" name="subject" class="form-control" required>
+              <option value="Contestation de loyer">Question sur ma contestation de loyer</option>
+              <option value="Erreur ou bug">Signaler un calcul ou un bug technique</option>
+              <option value="Partenariat & Presse">Proposition de partenariat / Presse</option>
+              <option value="Autre">Autre demande</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contactMessage">Votre message <span class="required">*</span></label>
+          <textarea id="contactMessage" name="message" class="form-control" rows="4" placeholder="Précisez votre arrondissement, votre loyer ou votre question..." required></textarea>
+        </div>
+
+        <button type="submit" id="btnSubmitContact" class="btn btn-primary btn-block">
+          <i class="fa-solid fa-paper-plane"></i> Envoyer le message
+        </button>
+      </form>
+
+      <!-- شاشة النجاح بعد الإرسال -->
+      <div id="contactSuccessState" class="contact-success-state hidden">
+        <div class="success-icon-wrap"><i class="fa-solid fa-check"></i></div>
+        <h4>Message envoyé avec succès !</h4>
+        <p>Merci. Notre équipe vous répondra par e-mail dans les plus brefs délais.</p>
+        <button type="button" class="btn btn-outline btn-block" onclick="closeContactModal()" style="margin-top: 1rem;">Fermer</button>
+      </div>
+
+      <!-- الخيارات السريعة المباشرة -->
+      <div class="modal-direct-actions">
+        <span class="direct-divider">Ou directement par :</span>
+        <div class="direct-btn-group">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=contact@loyerparis.app&su=Contact%20LoyerLegal" target="_blank" rel="noopener" class="direct-chip-btn">
+            <i class="fa-brands fa-google"></i> Ouvrir dans Gmail
+          </a>
+          <button type="button" class="direct-chip-btn" onclick="copyModalEmail(this)">
+            <i class="fa-solid fa-copy"></i> Copier l'e-mail
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
 </body>
 </html>

@@ -1134,3 +1134,79 @@ document.addEventListener('DOMContentLoaded', () => {
   applyTheme(currentTheme);
 });
 
+// ==========================================
+// إدارة نافذة التواصل الاحترافية (Contact Modal)
+// ==========================================
+const contactModal = document.getElementById('contactModal');
+
+function openContactModal() {
+  if (contactModal) {
+    document.getElementById('contactForm')?.reset();
+    document.getElementById('contactForm')?.classList.remove('hidden');
+    document.getElementById('contactSuccessState')?.classList.add('hidden');
+    contactModal.showModal();
+  }
+}
+
+function closeContactModal() {
+  if (contactModal) contactModal.close();
+}
+
+// إغلاق النافذة عند الضغط على زر ESC
+contactModal?.addEventListener('cancel', () => {
+  closeContactModal();
+});
+
+// معالجة إرسال النموذج واستقبال الرسائل على بريدك
+async function handleContactSubmit(event) {
+  event.preventDefault();
+  const btn = document.getElementById('btnSubmitContact');
+  const form = document.getElementById('contactForm');
+  const successState = document.getElementById('contactSuccessState');
+
+  const formData = {
+    email: document.getElementById('contactEmail').value,
+    subject: document.getElementById('contactSubject').value,
+    message: document.getElementById('contactMessage').value
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi en cours...';
+
+  try {
+    // إرسال البيانات عبر خدمة Web3Forms المجانية المباشرة إلى contact@loyerparis.app
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: '1dd3f213-7bd4-4ad8-a3cf-7b8d5c56d1fd', // احصل على مفتاح مجاني في 10 ثوانٍ من web3forms.com
+        from_name: 'LoyerLégal Paris Contact',
+        email: formData.email,
+        subject: `[LoyerParis] ${formData.subject}`,
+        message: formData.message
+      })
+    });
+
+    // إظهار واجهة النجاح
+    form.classList.add('hidden');
+    successState.classList.remove('hidden');
+  } catch (error) {
+    // في حال عدم توفر اتصال بالإنترنت
+    alert("Votre message a été préparé. Vous pouvez aussi nous écrire directement à contact@loyerparis.app");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Envoyer le message';
+  }
+}
+
+// وظيفة نسخ البريد من داخل الـ Modal
+function copyModalEmail(btnElement) {
+  const email = "contact@loyerparis.app";
+  navigator.clipboard.writeText(email).then(() => {
+    const originalText = btnElement.innerHTML;
+    btnElement.innerHTML = '<i class="fa-solid fa-check" style="color:#10b981;"></i> Copié !';
+    setTimeout(() => {
+      btnElement.innerHTML = originalText;
+    }, 2000);
+  });
+}
