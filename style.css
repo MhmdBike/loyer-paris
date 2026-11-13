@@ -2994,8 +2994,9 @@ input, select, textarea {
   color: #93c5fd;
 }
 /* ========================================================
-   فرض الوضع المظلم الكامل والمريح للعين (Dark Mode Override)
+   الوضع المظلم الشامل والمصحح لكافة عناصر الموقع
    ======================================================== */
+
 [data-theme="dark"],
 [data-theme="dark"] body,
 [data-theme="dark"] html {
@@ -3003,142 +3004,160 @@ input, select, textarea {
   color: #f1f5f9 !important;
 }
 
-/* خلفيات الأقسام والهيدر والبطاقات */
+/* 1. تعتيم الهيدر والفوتر والصفحة العامة */
 [data-theme="dark"] .main-header,
 [data-theme="dark"] header,
 [data-theme="dark"] .hero-section,
 [data-theme="dark"] section,
 [data-theme="dark"] main,
-[data-theme="dark"] .calc-card,
-[data-theme="dark"] .scanner-card,
-[data-theme="dark"] .info-card,
 [data-theme="dark"] .main-footer,
 [data-theme="dark"] footer,
-[data-theme="dark"] .saved-table,
 [data-theme="dark"] .theme-dropdown {
-  background-color: #111827 !important;
-  background-image: none !important;
+  background-color: #0b0f19 !important;
   border-color: #1f2937 !important;
   color: #f1f5f9 !important;
 }
 
-/* العناوين والنصوص البارزة */
-[data-theme="dark"] h1,
-[data-theme="dark"] h2,
-[data-theme="dark"] h3,
-[data-theme="dark"] h4,
-[data-theme="dark"] .hero-title,
-[data-theme="dark"] .logo-text,
-[data-theme="dark"] strong {
+/* 2. كروت الإحصائيات الأربعة تحت الهيدر (180€، 3ans، 5000€، 100%) */
+[data-theme="dark"] div[class*="stat"],
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .hero-stats > div,
+[data-theme="dark"] .stats-grid > div,
+[data-theme="dark"] .kpi-card {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  box-shadow: none !important;
+}
+[data-theme="dark"] div[class*="stat"] h3,
+[data-theme="dark"] div[class*="stat"] .stat-value,
+[data-theme="dark"] div[class*="stat"] strong {
   color: #ffffff !important;
 }
+[data-theme="dark"] div[class*="stat"] p,
+[data-theme="dark"] div[class*="stat"] span {
+  color: #94a3b8 !important;
+}
+[data-theme="dark"] .btn-secondary,
+[data-theme="dark"] a[class*="secondary"],
+[data-theme="dark"] a[href*="carte"] {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
 
-/* النصوص التوضيحية والفقرات */
-[data-theme="dark"] p,
-[data-theme="dark"] .hero-subtitle,
-[data-theme="dark"] label {
+/* 3. بطاقات عروض التأمين الثلاث (Affiliate Cards) */
+[data-theme="dark"] .affiliate-card,
+[data-theme="dark"] div[class*="affiliate"],
+[data-theme="dark"] .card-deck > div,
+[data-theme="dark"] .affiliate-grid > div {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  box-shadow: none !important;
+}
+[data-theme="dark"] .affiliate-card p,
+[data-theme="dark"] .affiliate-card li,
+[data-theme="dark"] .affiliate-card span {
   color: #94a3b8 !important;
 }
 
-/* الشارات التوضيحية (Badges) */
-[data-theme="dark"] .badge-tag,
-[data-theme="dark"] .official-badge,
-[data-theme="dark"] div[class*="badge"],
-[data-theme="dark"] span[class*="badge"] {
-  background-color: #1e293b !important;
-  border: 1px solid #334155 !important;
-  color: #93c5fd !important;
+/* 4. بطاقات الحاسبة، أمثلة الشقق، وأزرار الاختيار */
+[data-theme="dark"] .calc-card,
+[data-theme="dark"] .scanner-card,
+[data-theme="dark"] .info-card,
+[data-theme="dark"] div[class*="exemple"],
+[data-theme="dark"] .examples-box {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  color: #f1f5f9 !important;
 }
 
-/* حقول الإدخال والقوائم المنسدلة */
+[data-theme="dark"] .btn-toggle,
+[data-theme="dark"] .radio-group label,
+[data-theme="dark"] button[class*="choice"],
+[data-theme="dark"] .segmented-control button,
+[data-theme="dark"] div[class*="type-btn"] {
+  background-color: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .btn-toggle.active,
+[data-theme="dark"] .radio-group input:checked + label,
+[data-theme="dark"] button[class*="choice"].active {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+
+/* 5. بطاقات نتائج الحساب (Surcoût, Préjudice, Plafond, Remboursement) */
+[data-theme="dark"] div[class*="result-card"],
+[data-theme="dark"] div[class*="kpi-box"],
+[data-theme="dark"] .result-box div[style*="background"],
+[data-theme="dark"] div[class*="comparatif"] {
+  background-color: #1e293b !important;
+  border: 1px solid #334155 !important;
+}
+
+[data-theme="dark"] div[class*="result-card"] span,
+[data-theme="dark"] div[class*="kpi-box"] span,
+[data-theme="dark"] .result-box p {
+  color: #94a3b8 !important;
+}
+
+/* شريط عنوان التجاوز الأحمر في أعلى النتيجة */
+[data-theme="dark"] div[class*="result-header"],
+[data-theme="dark"] .result-banner {
+  background-color: rgba(220, 38, 38, 0.15) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+[data-theme="dark"] div[class*="result-header"] h3,
+[data-theme="dark"] .result-banner h3 {
+  color: #f87171 !important;
+}
+
+/* 6. صندوق شرح القانون وبطاقات الأسئلة الشائعة (FAQ) */
+[data-theme="dark"] .guide-content-section > div,
+[data-theme="dark"] div[class*="guide-card"],
+[data-theme="dark"] .faq-item,
+[data-theme="dark"] details,
+[data-theme="dark"] div[class*="faq-card"],
+[data-theme="dark"] div[class*="accordion"] {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .faq-item h3,
+[data-theme="dark"] summary,
+[data-theme="dark"] .faq-question {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .faq-item p,
+[data-theme="dark"] .faq-answer {
+  color: #94a3b8 !important;
+}
+
+/* 7. عناصر الخريطة (الدوائر ومربع المفتاح السفلي) */
+[data-theme="dark"] .arrond-pill,
+[data-theme="dark"] button[data-arrond],
+[data-theme="dark"] .map-legend,
+[data-theme="dark"] div[class*="legend"] {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+/* 8. حقول الإدخال */
 [data-theme="dark"] input,
 [data-theme="dark"] select,
 [data-theme="dark"] textarea {
-  background-color: #1f2937 !important;
-  border: 1.5px solid #374151 !important;
-  color: #ffffff !important;
-}
-
-[data-theme="dark"] input::placeholder,
-[data-theme="dark"] textarea::placeholder {
-  color: #64748b !important;
-}
-
-/* روابط شريط التنقل */
-[data-theme="dark"] .nav-links a {
-  color: #94a3b8 !important;
-}
-
-[data-theme="dark"] .nav-links a:hover,
-[data-theme="dark"] .nav-links a.active {
-  color: #60a5fa !important;
-}
-
-/* بطاقات النتائج والجداول المحفوظة */
-[data-theme="dark"] .saved-table th {
-  background-color: #1f2937 !important;
-  color: #94a3b8 !important;
-  border-bottom: 1px solid #374151 !important;
-}
-
-[data-theme="dark"] .saved-table td {
-  border-bottom: 1px solid #1f2937 !important;
-  color: #e2e8f0 !important;
-}
-
-[data-theme="dark"] .result-box,
-[data-theme="dark"] .scan-result-card {
   background-color: #1e293b !important;
-  border-color: #334155 !important;
-  color: #f1f5f9 !important;
-}
-/* ========================================================
-   إصلاح الوضع المظلم الشامل وتثبيت وضوح النصوص والخطاب
-   ======================================================== */
-
-[data-theme="dark"],
-[data-theme="dark"] body,
-[data-theme="dark"] html {
-  background-color: #0b0f19 !important;
-  color: #f1f5f9 !important;
-}
-
-/* تعتيم كافة الأقسام والبطاقات والكروت التوضيحية */
-[data-theme="dark"] .main-header,
-[data-theme="dark"] header,
-[data-theme="dark"] .hero-section,
-[data-theme="dark"] section,
-[data-theme="dark"] main,
-[data-theme="dark"] .calc-card,
-[data-theme="dark"] .scanner-card,
-[data-theme="dark"] .info-card,
-[data-theme="dark"] .guide-content-section,
-[data-theme="dark"] .guide-card,
-[data-theme="dark"] .main-footer,
-[data-theme="dark"] footer,
-[data-theme="dark"] .saved-table,
-[data-theme="dark"] .theme-dropdown,
-[data-theme="dark"] div[style*="background: #ffffff"],
-[data-theme="dark"] div[style*="background: white"],
-[data-theme="dark"] div[style*="background:#ffffff"] {
-  background-color: #111827 !important;
-  background-image: none !important;
-  border-color: #1f2937 !important;
-  color: #f1f5f9 !important;
-}
-
-/* تلوين العناوين والنصوص داخل الموقع */
-[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4 {
+  border: 1.5px solid #334155 !important;
   color: #ffffff !important;
 }
-[data-theme="dark"] p, [data-theme="dark"] label, [data-theme="dark"] span {
-  color: #94a3b8;
-}
-[data-theme="dark"] strong {
-  color: #60a5fa !important; /* إبراز الكلمات الهامة بالأزرق السماوي */
-}
 
-/* 1. استثناء ورقة الخطاب A4 (يجب أن تظل بيضاء بالكامل بخط أسود مقروء) */
+/* 9. ورقة الخطاب الرسمية A4 (تظل بيضاء تماماً بنص أسود رسمي) */
 #letterPaper,
 #letterPaper *,
 .letter-paper,
@@ -3146,64 +3165,13 @@ input, select, textarea {
 #letterContent,
 #letterContent * {
   background-color: #ffffff !important;
-  color: #0f172a !important; /* أسود صريح لكافة الأرقام والمبالغ */
+  color: #0f172a !important;
   text-shadow: none !important;
 }
 #letterPaper strong,
 .letter-paper strong {
   color: #000000 !important;
   font-weight: 700 !important;
-}
-
-/* 2. إصلاح صندوق التنبيه العلوي (3 276 €) */
-[data-theme="dark"] #retro-recovery-banner,
-[data-theme="dark"] .result-alert-box {
-  background: rgba(220, 38, 38, 0.15) !important;
-  border: 1px solid rgba(239, 68, 68, 0.4) !important;
-  color: #fca5a5 !important;
-}
-[data-theme="dark"] #retro-recovery-banner strong,
-[data-theme="dark"] .result-alert-box strong {
-  color: #ffffff !important;
-}
-
-/* 3. إصلاح بطاقات الأمثلة واختيارات الأزرار (الصورة 1) */
-[data-theme="dark"] .calc-card div[style*="background"],
-[data-theme="dark"] .examples-box,
-[data-theme="dark"] div[class*="exemples"],
-[data-theme="dark"] .btn-toggle,
-[data-theme="dark"] .radio-group label,
-[data-theme="dark"] button[class*="choice"] {
-  background-color: #1f2937 !important;
-  border-color: #374151 !important;
-  color: #f8fafc !important;
-}
-
-/* 4. إصلاح نافذة الخريطة المنبثقة (Leaflet Popup) لتكون داكنة ونصوصها بيضاء */
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  background-color: #1e293b !important;
-  color: #ffffff !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
-}
-.leaflet-popup-content strong,
-.leaflet-popup-content span,
-.leaflet-popup-content p {
-  color: #ffffff !important;
-}
-
-/* 5. إصلاح الحقول والأزرار */
-[data-theme="dark"] input,
-[data-theme="dark"] select,
-[data-theme="dark"] textarea {
-  background-color: #1f2937 !important;
-  border: 1.5px solid #374151 !important;
-  color: #ffffff !important;
-}
-.btn-text-danger, #btnClearSaved {
-  background: transparent !important;
-  border: 1px solid #ef4444 !important;
-  color: #ef4444 !important;
 }
 /* التجاوب مع شاشات الجوال */
 @media (max-width: 640px) {
