@@ -740,6 +740,70 @@
         </div>
       </div>
     </section>
+    <!-- قسم فحص الإعلانات السريع -->
+    <section class="ad-scanner-section" id="scanner">
+      <div class="container">
+        <div class="scanner-card">
+          <div class="scanner-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Nouveau : Analyseur Instantané</div>
+          <h2>Vous cherchez un appartement ? Testez n'importe quelle annonce</h2>
+          <p>Copiez simplement le texte ou la description d'une annonce (Leboncoin, SeLoger, PAP...) et collez-le ici :</p>
+          
+          <div class="scanner-input-wrap">
+            <textarea id="rawAdText" placeholder="Exemple : À louer studio meublé de 18m2 à Paris 18e (Montmartre), loyer 850€ charges comprises..."></textarea>
+            <button type="button" id="btnScanAd" class="btn-scan">
+              <i class="fa-solid fa-magnifying-glass"></i> Analyser l'annonce
+            </button>
+          </div>
+
+          <!-- نتيجة الفحص السريع -->
+          <div id="quickScanResult" class="scan-result-card hidden">
+            <div class="scan-header">
+              <span id="scanStatusBadge" class="status-badge"></span>
+              <span id="scanEstimatedSaving" class="saving-badge"></span>
+            </div>
+            <div class="scan-details-grid">
+              <div><strong>Arrondissement détecté :</strong> <span id="scanArrond">--</span></div>
+              <div><strong>Surface :</strong> <span id="scanSurface">--</span> m²</div>
+              <div><strong>Loyer affiché :</strong> <span id="scanPrice">--</span> €</div>
+              <div><strong>Plafond légal estimé :</strong> <span id="scanLegal">--</span> €</div>
+            </div>
+            <div class="scan-actions">
+              <button type="button" id="btnSaveToList" class="btn-secondary">
+                <i class="fa-solid fa-bookmark"></i> Ajouter à mon comparateur
+              </button>
+              <a href="#simulateur" id="btnRefineCalc" class="btn-link">Affiner les détails</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- جدول الإعلانات المحفوظة (المقارنة الدائمة) -->
+    <section class="saved-ads-section" id="mes-annonces">
+      <div class="container">
+        <div class="saved-ads-header">
+          <h3><i class="fa-solid fa-list-check"></i> Mes annonces suivies (<span id="savedCount">0</span>)</h3>
+          <button type="button" id="btnClearSaved" class="btn-text-danger">Effacer la liste</button>
+        </div>
+        <div class="table-responsive">
+          <table class="saved-table" id="savedTable">
+            <thead>
+              <tr>
+                <th>Quartier</th>
+                <th>Surface</th>
+                <th>Loyer demandé</th>
+                <th>Statut Légal</th>
+                <th>Gain potentiel / mois</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="savedTableBody">
+              <!-- البيانات تُملأ بواسطة JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
     <!-- Pre-filled Legal Letter Generator Section -->
     <section class="section letter-section" id="generateur-lettre">

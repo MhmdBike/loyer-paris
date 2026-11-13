@@ -921,3 +921,153 @@ function initModals() {
     });
   });
 }
+
+// ==========================================
+// 1. محلل نصوص الإعلانات بالـ Regex
+// ==========================================
+function parseAdText(text) {
+  if (!text || text.length < 10) return null;
+
+  // 1. استخراج الإيجار (أرقام تسبق أو تلي كلمة € أو euros أو loyer)
+  const priceMatch = text.match(/(?:loyer\s*[:de\s]*)?(\d{3,4})\s*(?:€|euros)/i) || 
+                     text.match(/(\d{3,4})\s*€/);
+  const price = priceMatch ? parseInt(priceMatch[1], 10) : null;
+
+  // 2. استخراج المساحة (أرقام تليها m² أو m2 أو metre carre)
+  const surfaceMatch = text.match(/(\d{1,3}(?:[.,]\d)?)\s*(?:m²|m2|mètres?\s*carrés?)/i);
+  const surface = surfaceMatch ? parseFloat(surfaceMatch[1].replace(',', '.')) : null;
+
+  // 3. استخراج الدائرة (750xx أو Paris xx أو 11e / 18ème)
+  let arrond = null;
+  const zipMatch = text.match(/750(0[1-9]|1[0-9]|20)/);
+  if (zipMatch) {
+    arrond = parseInt(zipMatch[1], 10);
+  } else {
+    const arrondMatch = text.match(/(?:paris\s*)?([1-9]|1[0-9]|20)(?:e|ème|er)?\s*(?:arrondissement|arrdt)?/i);
+    if (arrondMatch) {
+      arrond = parseInt(arrondMatch[1], 10);
+    }
+  }
+
+  // 4. استخراج نوع الإيجار (Meublé / Vide)
+  const isMeuble = /meubl[ée]/i.test(text);
+
+  return { price, surface, arrond, isMeuble };
+}
+
+// تشغيل الفحص عند الضغط على الزر
+document.getElementById('btnScanAd')?.addEventListener('click', () => {
+  const rawText = document.getElementById('rawAdText').value;
+  const parsed = parseAdText(rawText);
+
+  if (!parsed || !parsed.price || !parsed.surface) {
+    alert("Impossible d'extraire toutes les données. Assurez-vous d'inclure le loyer (€) et la surface (m²).");
+    return;
+  }
+
+  // ملء بيانات الحاسبة الأصلية تلقائياً
+  if (parsed.arrond) document.getElementById('arrondissement').value = parsed.arrond;
+  document.getElementById('surface').value = parsed.surface;
+  document.getElementById('currentRent').value = parsed.price;
+  document.getElementById('meuble').value = parsed.isMeuble ? 'meuble' : 'non_meuble';
+
+  // تقدير سريع (سقف متوسط لباريس تقريبي: 33€/m² للتحليل السريع)
+  const estimatedCap = Math.round(parsed.surface * (parsed.isMeuble ? 35 : 31));
+  const diff = parsed.price - estimatedCap;
+
+  // عرض النتيجة السريعة
+  const resultCard = document.getElementById('quickScanResult');
+  resultCard.classList.remove('hidden');
+
+  document.getElementById('scanArrond').textContent = parsed.arrond ? `Paris ${parsed.arrond}e` : 'Non précisé';
+  document.getElementById('scanSurface').textContent = parsed.surface;
+  document.getElementById('scanPrice').textContent = parsed.price;
+  document.getElementById('scanLegal').textContent = estimatedCap;
+
+  const statusBadge = document.getElementById('scanStatusBadge');
+  const savingBadge = document.getElementById('scanEstimatedSaving');
+
+  if (diff > 20) {
+    statusBadge.textContent = "Loyer Suspect / Dépassement probable";
+    statusBadge.className = "status-badge badge-danger";
+    savingBadge.textContent = `Économie potentielle : +${diff} € / mois`;
+    savingBadge.className = "saving-badge text-green";
+  } else {
+    statusBadge.textContent = "Loyer conforme au plafond";
+    statusBadge.className = "status-badge badge-success";
+    savingBadge.textContent = "Prix légal";
+    savingBadge.className = "saving-badge text-gray";
+  }
+
+  // تخزين العنصر الحالي لزر الحفظ
+  window.lastScannedAd = {
+    id: Date.now(),
+    arrond: parsed.arrond ? `Paris ${parsed.arrond}e` : 'Paris',
+    surface: parsed.surface,
+    price: parsed.price,
+    legalCap: estimatedCap,
+    diff: Math.max(0, diff)
+  };
+});
+
+// ==========================================
+// 2. إدارة المقارنة عبر LocalStorage
+// ==========================================
+function getSavedAds() {
+  return JSON.parse(localStorage.getItem('loyer_saved_ads') || '[]');
+}
+
+function renderSavedTable() {
+  const ads = getSavedAds();
+  const tbody = document.getElementById('savedTableBody');
+  const countSpan = document.getElementById('savedCount');
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+  countSpan.textContent = ads.length;
+
+  if (ads.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">Aucune annonce enregistrée pour le moment.</td></tr>';
+    return;
+  }
+
+  ads.forEach(ad => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${ad.arrond}</strong></td>
+      <td>${ad.surface} m²</td>
+      <td>${ad.price} €</td>
+      <td><span class="${ad.diff > 0 ? 'badge-danger' : 'badge-success'}">${ad.diff > 0 ? 'Surévalué' : 'Conforme'}</span></td>
+      <td><strong style="color: ${ad.diff > 0 ? '#10b981' : '#6b7280'}">${ad.diff > 0 ? '+' + ad.diff + ' €/mois' : '0 €'}</strong></td>
+      <td><button class="btn-del" onclick="deleteSavedAd(${ad.id})"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+document.getElementById('btnSaveToList')?.addEventListener('click', () => {
+  if (!window.lastScannedAd) return;
+  const ads = getSavedAds();
+  ads.unshift(window.lastScannedAd);
+  localStorage.setItem('loyer_saved_ads', JSON.stringify(ads));
+  renderSavedTable();
+  alert("Annonce ajoutée à votre tableau de comparaison !");
+});
+
+window.deleteSavedAd = function(id) {
+  let ads = getSavedAds();
+  ads = ads.filter(a => a.id !== id);
+  localStorage.setItem('loyer_saved_ads', JSON.stringify(ads));
+  renderSavedTable();
+};
+
+document.getElementById('btnClearSaved')?.addEventListener('click', () => {
+  if (confirm("Supprimer toute votre liste d'annonces ?")) {
+    localStorage.removeItem('loyer_saved_ads');
+    renderSavedTable();
+  }
+});
+
+// تهيئة الجدول عند فتح الموقع
+document.addEventListener('DOMContentLoaded', renderSavedTable);
+
