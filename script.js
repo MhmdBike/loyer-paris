@@ -1070,4 +1070,67 @@ document.getElementById('btnClearSaved')?.addEventListener('click', () => {
 
 // تهيئة الجدول عند فتح الموقع
 document.addEventListener('DOMContentLoaded', renderSavedTable);
+// ==========================================
+// إدارة وضع المظهر (Light / Dark / System)
+// ==========================================
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const themeDropdown = document.getElementById('themeDropdown');
+const themeOptions = document.querySelectorAll('.theme-option');
+const themeIcon = document.getElementById('themeIcon');
+const systemMedia = window.matchMedia('(prefers-color-scheme: dark)');
+
+function applyTheme(theme) {
+  let isDark = false;
+
+  if (theme === 'system') {
+    isDark = systemMedia.matches;
+    themeIcon.className = 'fa-solid fa-circle-half-stroke';
+  } else if (theme === 'dark') {
+    isDark = true;
+    themeIcon.className = 'fa-solid fa-moon';
+  } else {
+    isDark = false;
+    themeIcon.className = 'fa-solid fa-sun';
+  }
+
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  localStorage.setItem('theme_preference', theme);
+
+  // تحديث الزر النشط في القائمة
+  themeOptions.forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.themeValue === theme);
+  });
+}
+
+// فتح / إغلاق القائمة المنسدلة
+themeToggleBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  themeDropdown.classList.toggle('hidden');
+});
+
+// إغلاق القائمة عند النقر في أي مكان خارجها
+document.addEventListener('click', () => {
+  themeDropdown?.classList.add('hidden');
+});
+
+// التعامل مع خيارات المستخدم
+themeOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    applyTheme(option.dataset.themeValue);
+    themeDropdown.classList.add('hidden');
+  });
+});
+
+// الاستماع لتغييرات نظام التشغيل في حال اختيار "System"
+systemMedia.addEventListener('change', () => {
+  if ((localStorage.getItem('theme_preference') || 'system') === 'system') {
+    applyTheme('system');
+  }
+});
+
+// تهيئة الوضع الأولي عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+  const currentTheme = localStorage.getItem('theme_preference') || 'system';
+  applyTheme(currentTheme);
+});
 

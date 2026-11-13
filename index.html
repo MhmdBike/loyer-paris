@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme_preference') || 'system';
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (savedTheme === 'system' && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -150,6 +161,24 @@
         <a href="#faq" class="nav-link"><i class="fa-solid fa-circle-question"></i> FAQ</a>
         <a href="#simulateur" class="btn btn-sm btn-primary nav-cta"><i class="fa-solid fa-bolt"></i> Tester mon loyer</a>
       </nav>
+      <!-- زر تبديل الوضع (Light / Dark / System) -->
+      <div class="theme-switch-wrapper">
+        <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-circle-half-stroke" id="themeIcon"></i>
+        </button>
+
+        <div id="themeDropdown" class="theme-dropdown hidden">
+          <button type="button" class="theme-option" data-theme-value="light">
+            <i class="fa-solid fa-sun"></i> Clair
+          </button>
+          <button type="button" class="theme-option" data-theme-value="dark">
+            <i class="fa-solid fa-moon"></i> Sombre
+          </button>
+          <button type="button" class="theme-option" data-theme-value="system">
+            <i class="fa-solid fa-desktop"></i> Système
+          </button>
+        </div>
+      </div>
 
       <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Ouvrir le menu de navigation">
         <i class="fa-solid fa-bars"></i>
