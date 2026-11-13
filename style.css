@@ -2993,6 +2993,105 @@ input, select, textarea {
   background: #1e3a8a;
   color: #93c5fd;
 }
+/* ========================================================
+   فرض الوضع المظلم الكامل والمريح للعين (Dark Mode Override)
+   ======================================================== */
+[data-theme="dark"],
+[data-theme="dark"] body,
+[data-theme="dark"] html {
+  background-color: #0b0f19 !important;
+  color: #f1f5f9 !important;
+}
+
+/* خلفيات الأقسام والهيدر والبطاقات */
+[data-theme="dark"] .main-header,
+[data-theme="dark"] header,
+[data-theme="dark"] .hero-section,
+[data-theme="dark"] section,
+[data-theme="dark"] main,
+[data-theme="dark"] .calc-card,
+[data-theme="dark"] .scanner-card,
+[data-theme="dark"] .info-card,
+[data-theme="dark"] .main-footer,
+[data-theme="dark"] footer,
+[data-theme="dark"] .saved-table,
+[data-theme="dark"] .theme-dropdown {
+  background-color: #111827 !important;
+  background-image: none !important;
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+/* العناوين والنصوص البارزة */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] .hero-title,
+[data-theme="dark"] .logo-text,
+[data-theme="dark"] strong {
+  color: #ffffff !important;
+}
+
+/* النصوص التوضيحية والفقرات */
+[data-theme="dark"] p,
+[data-theme="dark"] .hero-subtitle,
+[data-theme="dark"] label {
+  color: #94a3b8 !important;
+}
+
+/* الشارات التوضيحية (Badges) */
+[data-theme="dark"] .badge-tag,
+[data-theme="dark"] .official-badge,
+[data-theme="dark"] div[class*="badge"],
+[data-theme="dark"] span[class*="badge"] {
+  background-color: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #93c5fd !important;
+}
+
+/* حقول الإدخال والقوائم المنسدلة */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: #1f2937 !important;
+  border: 1.5px solid #374151 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* روابط شريط التنقل */
+[data-theme="dark"] .nav-links a {
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .nav-links a:hover,
+[data-theme="dark"] .nav-links a.active {
+  color: #60a5fa !important;
+}
+
+/* بطاقات النتائج والجداول المحفوظة */
+[data-theme="dark"] .saved-table th {
+  background-color: #1f2937 !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid #374151 !important;
+}
+
+[data-theme="dark"] .saved-table td {
+  border-bottom: 1px solid #1f2937 !important;
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .result-box,
+[data-theme="dark"] .scan-result-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
 /* التجاوب مع شاشات الجوال */
 @media (max-width: 640px) {
   .affiliate-cards-container {
