@@ -109,7 +109,7 @@ body {
   font-weight: 400;
   line-height: 1.6;
   color: var(--color-slate-800);
-  background-color: var(--color-slate-50);
+  background-color: var(#0b0f19);
   background-image: radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
                     radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.02) 0px, transparent 50%);
   background-attachment: fixed;
