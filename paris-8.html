@@ -6,10 +6,44 @@
   <title>Encadrement des Loyers Paris 8 (75008) - Plafond Légal 2026</title>
   <meta name="description" content="Simulateur officiel de loyer à Paris 8e (75008). Calculez gratuitement si votre loyer dépasse le plafond légal (Loi ÉLAN) et générez votre lettre.">
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Canonical مع www لتفادي تعارض الفهرسة -->
+  <link rel="canonical" href="https://www.loyerparis.app/paris-8.html">
+
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
   
+  <!-- FAQ Schema لتعزيز الظهور في الصفحة الأولى -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quel est le loyer maximum légal à Paris 8e (75008) ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le loyer dépend du type de location (meublée ou vide), du nombre de pièces et de l'époque de construction dans les quartiers de Champs-Élysées, Madeleine, Faubourg-du-Roule, Europe. Utilisez notre simulateur officiel pour obtenir le plafond légal exact."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment contester un loyer abusif à Paris 8e ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vous devez d'abord envoyer une mise en demeure en recommandé avec accusé de réception à votre propriétaire, puis saisir gratuitement la Commission Départementale de Conciliation (CDC) de Paris ou la mairie."
+        }
+      }
+    ]
+  }
+  </script>
+
   <script>
     (function () {
       const savedTheme = localStorage.getItem('theme_preference') || 'system';
@@ -21,7 +55,6 @@
   </script>
 </head>
 <body>
-
   <!-- الهيدر الموحد مع زر الوضع الليلي -->
   <header class="site-header">
     <div class="container nav-container">
@@ -155,7 +188,7 @@
     </div>
   </section>
 
-  <!-- الفوتر الموحد مع رابط البريد المهني الجديد -->
+  <!-- الفوتر الموحد مع رابط البريد المهني -->
   <footer class="site-footer">
     <div class="container footer-container">
       <div class="footer-col brand-col">
@@ -202,6 +235,7 @@
   </footer>
 
   <script src="/script.js"></script>
+
   <!-- Modal de Contact Fintech -->
   <dialog id="contactModal" class="contact-modal">
     <div class="contact-modal-backdrop" onclick="closeContactModal()"></div>
